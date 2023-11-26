@@ -6,23 +6,22 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Immobile
 {
 
- //   @Id
-   // private String id;
+    //   @Id
+    // private String id;
     private String category;
     private String title;
     private String price;
     private String address;
     private String size;
     private String imageUrl;
-
     private String room;
 
     // Constructors
 
-    public Immobile() {
-    }
+    public Immobile()  {    }
 
-    public Immobile(String category, String title, String price, String address, String size, String imageUrl,String room) {
+    public Immobile(String category, String title, String price, String address, String size, String imageUrl,String room)
+    {
         this.category = category;
         this.title = title;
         this.price = price;
@@ -39,9 +38,7 @@ public class Immobile
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    */
+    } */
 
     public String getCategory() {
         return category;
@@ -49,11 +46,9 @@ public class Immobile
     public void setCategory(String category) {
         this.category = category;
     }
-
     public String getTitle() {
         return title;
     }
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -75,17 +70,13 @@ public class Immobile
     public void setSize(String size) {
         this.size = size;
     }
-
     public String getImageUrl() {
         return imageUrl;
     }
-
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-
     public String getRoom() {  return room;   }
-
     public void setRoom(String room) {  this.room = room;  }
 
     // Additional methods

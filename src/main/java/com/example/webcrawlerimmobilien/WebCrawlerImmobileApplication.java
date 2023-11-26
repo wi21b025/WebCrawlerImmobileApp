@@ -6,9 +6,9 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 
-@ComponentScan(basePackages = "notification")
-//@ComponentScan(basePackages = {"scraper", "service"})
-//@ComponentScan(basePackages = {"notification", "other.package"})
+//@ComponentScan(basePackages = "notification")
+@ComponentScan(basePackages = {"scraper", "service"})
+//@ComponentScan(basePackages = {"notification", ""})
 
 public class WebCrawlerImmobileApplication
 {

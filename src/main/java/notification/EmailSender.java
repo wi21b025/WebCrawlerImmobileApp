@@ -1,18 +1,8 @@
 package notification;
 
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
-import org.thymeleaf.templatemode.TemplateMode;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
-
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import java.util.*;
-
 public class EmailSender
 {
-
+/*
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -121,5 +111,7 @@ public class EmailSender
         }
         return null;
     }
+
+ */
 
 }

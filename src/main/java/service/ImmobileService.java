@@ -19,21 +19,21 @@ public class ImmobileService {
     AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MongoDbConfig.class);
     MongoTemplate mongoTemplate = context.getBean(MongoTemplate.class);
 
- /*   @Autowired
-    public ImmobileService(MongoTemplate mongoTemplate) {
-        this.mongoTemplate = mongoTemplate;
+    /*   @Autowired
+       public ImmobileService(MongoTemplate mongoTemplate) {
+           this.mongoTemplate = mongoTemplate;
+       }
+   */
+    public void saveImmobile(Immobile immobile)
+    {
+        try {
+            saveIfNotExists(immobile);
+        }catch (Exception e) {
+            // Handle any exceptions that occur during initialization
+            e.printStackTrace(); // You can log the exception or perform other actions here
+        }
+        //mongoTemplate.save(immobile);
     }
-*/
- public void saveImmobile(Immobile immobile)
- {
-     try {
-         saveIfNotExists(immobile);
-     }catch (Exception e) {
-         // Handle any exceptions that occur during initialization
-         e.printStackTrace(); // You can log the exception or perform other actions here
-     }
-     //mongoTemplate.save(immobile);
- }
 
 
 
