@@ -15,50 +15,62 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 
 @Component
-public class DataScraper {
+public class DataScraper
+{
     private static final Logger logger = LoggerFactory.getLogger(DataScraper.class);
 
     private WebDriver driver;
 
-    public DataScraper() {
+    public DataScraper()
+    {
         // Set up the WebDriver (Firefox in this example)
         WebDriverManager.firefoxdriver().setup(); // Automatically download and manage geckodriver
 
         // Uncomment below lines to use headless Firefox
         FirefoxOptions options = new FirefoxOptions();
         options.addArguments("--headless");
-        driver = new FirefoxDriver(options);
+        this.driver = new FirefoxDriver(options);
 
 
         // Comment below line to use headless Firefox
         //driver = new FirefoxDriver();
     }
 
-    public String scrapeData() {
+    public String scrapeData()
+    {
         StringBuilder concatenatedContent = new StringBuilder();
 
-        try {
+        try
+        {
+
             // Navigate to the URL
             logger.info("Navigating to the URL");
             driver.get("https://www.willhaben.at/iad/immobilien/ferienimmobilien-mieten/ferienimmobilien-angebote?sfId=d936001c-1c1a-4cd1-b7e1-1fc29703078a&isNavigation=true&page=1&rows=90");
             closePopup(); // Add this line to close popups
 
-            while (true) {
+            while (true)
+            {
                 // Extract the content from the current page and append it to the concatenatedContent StringBuilder
                 String pageContent = savePageContent();
                 concatenatedContent.append(pageContent);
                 logger.info("Content from current page appended");
 
                 // Navigate to the next page
-                if (!navigateToNextPage()) {
+                if (!navigateToNextPage())
+                {
                     logger.info("Reached the last page");
                     break;
                 }
             }
-        } finally {
+        }
+        finally
+        {
             // Quit the WebDriver when done
-            logger.info("Quitting the WebDriver");
-            driver.quit();
+           /* logger.info("Quitting the WebDriver");
+            if (driver != null) {
+                driver.quit();
+                this.driver = null;
+            }*/
         }
 
         return concatenatedContent.toString();
@@ -67,12 +79,15 @@ public class DataScraper {
 
     private void closePopup()
     {
-        try {
+        try
+        {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             wait.until(ExpectedConditions.presenceOfElementLocated(By.id("didomi-notice-agree-button"))).click();
             wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("didomi-notice-agree-button")));
             logger.info("Popup closed");
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             logger.error("Popup handling error: " + e.getMessage());
         }
     }

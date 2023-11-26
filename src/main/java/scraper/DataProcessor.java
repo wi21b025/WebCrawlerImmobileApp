@@ -33,25 +33,23 @@ public class DataProcessor {
    //  AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ImmobileService.class);
     // ImmobileService immobileService = context.getBean(ImmobileService.class);
 
-    public void processData(String scrapedData)
-    {
-        logger.warn("HTML-Data..." + scrapedData);
-
+    public List<Immobile> processData(String scrapedData) {
         logger.info("Processing data...");
 
         List<Immobile> cleanedData = cleaningData(scrapedData);
+        List<Immobile> newImmobiles = new ArrayList<>();
 
-        // Print each Immobile object
+        // Print and save each Immobile object
         for (Immobile immobile : cleanedData) {
             printImmobile(immobile);
+            boolean isNew = immobileService.saveImmobile(immobile);
+            if (isNew) {
+                newImmobiles.add(immobile);
+            }
         }
-
-        for (Immobile immobile : cleanedData) {
-            immobileService.saveImmobile(immobile);
-        }
-
 
         logger.info("Data processing completed.");
+        return newImmobiles; // Return the list of new immobiles
     }
 
     private List<Immobile> cleaningData(String rawData) {

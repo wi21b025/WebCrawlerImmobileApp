@@ -1,59 +1,50 @@
 package notification;
 
-public class EmailSender
-{
-/*
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+import model.Immobile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.templatemode.TemplateMode;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
-        System.out.println("Enter recipient's email address:");
-        String recipient = scanner.nextLine();
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.util.*;
 
-        System.out.println("Enter subject of the email:");
-        String subject = scanner.nextLine();
+public class EmailSender {
+    private static final Logger logger = LoggerFactory.getLogger(EmailSender.class);
 
-        // Assuming you have some method to generate your template model
-        Map<String, Object> templateModel = getTemplateModel();
-
-        try {
-            sendEmail(recipient, subject, templateModel);
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static Map<String, Object> getTemplateModel() {
+    private static Map<String, Object> getTemplateModel(List<Immobile> newImmobiles) {
+        logger.info("Creating template model for email...");
         // Create and return your template model here
         Map<String, Object> model = new HashMap<>();
 
-        // Example list of listings
-        List<Map<String, String>> listings = new ArrayList<>();
+        // Filter the new immobiles based on some criteria
+        List<Map<String, String>> newImmobileListings = new ArrayList<>();
+        for (Immobile newImmobile : newImmobiles) {
+            // Check if newImmobile meets the criteria to be considered "new"
+            // Extract the relevant data from newImmobile and create a map
+            Map<String, String> listing = new HashMap<>();
+            listing.put("title", newImmobile.getTitle());
+            listing.put("imageUrl", newImmobile.getImageUrl());
+            listing.put("price", newImmobile.getPrice());
+            listing.put("address", newImmobile.getAddress());
 
-        // Example listing 1
-        Map<String, String> listing1 = new HashMap<>();
-        listing1.put("title", "Modern City Apartment");
-        listing1.put("imageUrl", "https://cache.willhaben.at/mmo/0/732/581/770_1089917387_hoved.jpg"); // Replace with actual image URL
-        listing1.put("price", "$300,000");
-        listing1.put("address", "123 Main St, Metropolis");
-        listing1.put("size", "1200 sqft");
-        listings.add(listing1);
+            newImmobileListings.add(listing);
+        }
 
-        // Example listing 2
-        Map<String, String> listing2 = new HashMap<>();
-        listing2.put("title", "Cozy Country Home");
-        listing2.put("imageUrl", "https://cache.willhaben.at/mmo/6/740/527/466_-2037459382_hoved.jpg"); // Replace with actual image URL
-        listing2.put("price", "$250,000");
-        listing2.put("address", "456 Country Rd, Smallville");
-        listing2.put("size", "2000 sqft");
-        listings.add(listing2);
+        // Add the list of new listings to the model
+        model.put("listings", newImmobileListings);
 
-        // Add the list of listings to the model
-        model.put("listings", listings);
-
+        logger.info("Template model created successfully.");
         return model;
     }
 
-    public static void sendEmail(String recipient, String subject, Map<String, Object> templateModel) throws MessagingException {
+    public static void sendEmail(String recipient, String subject, List<Immobile> newImmobileListings) throws MessagingException {
+        logger.info("Sending email...");
+
         Properties properties = new Properties();
 
         // Set SMTP server properties
@@ -74,14 +65,17 @@ public class EmailSender
             }
         });
 
+        Map<String, Object> templateModel = getTemplateModel(newImmobileListings);
+
         Message message = prepareMessage(session, myAccountEmail, recipient, subject, templateModel);
 
         Transport.send(message);
-        System.out.println("Message sent successfully");
+        logger.info("Email sent successfully");
     }
 
     private static Message prepareMessage(Session session, String myAccountEmail, String recipient, String subject, Map<String, Object> templateModel) {
         try {
+            logger.info("Preparing email message...");
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(myAccountEmail));
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
@@ -105,13 +99,12 @@ public class EmailSender
             String htmlContent = templateEngine.process("email-template", context);
             message.setContent(htmlContent, "text/html; charset=utf-8");
 
+            logger.info("Email message prepared successfully.");
             return message;
         } catch (Exception ex) {
+            logger.error("Error preparing email message: " + ex.getMessage());
             ex.printStackTrace();
         }
         return null;
     }
-
- */
-
 }
