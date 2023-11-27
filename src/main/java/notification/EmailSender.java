@@ -24,6 +24,8 @@ public class EmailSender {
         // Filter the new immobiles based on some criteria
         List<Map<String, String>> newImmobileListings = new ArrayList<>();
         for (Immobile newImmobile : newImmobiles) {
+            logger.info("Immobile: " + newImmobile.getTitle() + ", Rooms: " + newImmobile.getRoom() + ", Size: " + newImmobile.getSize());
+
             // Check if newImmobile meets the criteria to be considered "new"
             // Extract the relevant data from newImmobile and create a map
             Map<String, String> listing = new HashMap<>();
@@ -31,7 +33,8 @@ public class EmailSender {
             listing.put("imageUrl", newImmobile.getImageUrl());
             listing.put("price", newImmobile.getPrice());
             listing.put("address", newImmobile.getAddress());
-
+            listing.put("rooms", newImmobile.getRoom());
+            listing.put("sizes", newImmobile.getSize());
             newImmobileListings.add(listing);
         }
 

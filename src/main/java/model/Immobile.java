@@ -64,9 +64,7 @@ public class Immobile
     public void setAddress(String address) {
         this.address = address;
     }
-    public String getSize() {
-        return size;
-    }
+    public String getSize() { return size; }
     public void setSize(String size) {
         this.size = size;
     }

@@ -24,13 +24,13 @@ public class DataProcessor {
         this.dataScraper = dataScraper;
     }
 
-    public void init() {
+    /*public void init() {
         String scrapedData = dataScraper.scrapeData(); // Scraping data
         processData(scrapedData); // Processing data
-    }
+    }*/
 
 
-   //  AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ImmobileService.class);
+    //  AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ImmobileService.class);
     // ImmobileService immobileService = context.getBean(ImmobileService.class);
 
     public List<Immobile> processData(String scrapedData) {
