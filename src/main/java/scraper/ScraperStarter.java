@@ -5,8 +5,9 @@ import model.Immobile;
 import notification.EmailSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+import service.UserService;
 
 import java.util.List;
 
@@ -15,11 +16,14 @@ public class ScraperStarter
 {
     private final DataScraper dataScraper;
     private final DataProcessor dataProcessor;
+    private final UserService userService;
+
     private static final Logger logger = LoggerFactory.getLogger(ScraperStarter.class);
 
-    public ScraperStarter(DataScraper dataScraper, DataProcessor dataProcessor) {
+    public ScraperStarter(DataScraper dataScraper, DataProcessor dataProcessor, UserService userService) {
         this.dataScraper = dataScraper;
         this.dataProcessor = dataProcessor;
+        this.userService = userService; // Initialize UserService
     }
 
     @PostConstruct
@@ -40,8 +44,12 @@ public class ScraperStarter
             // Send email notification if there are new listings
             if (!newImmobiles.isEmpty())
             {
-                EmailSender.sendEmail("kevinxhunga1@gmail.com", "Neue Immobilienangebote", newImmobiles);
-                logger.info("Email notification sent.");
+                List<String> userEmails = userService.getAllUserEmails(); // Fetch user emails
+                logger.info("Number of user emails: " + userEmails.size());
+                for (String email : userEmails) {
+                    EmailSender.sendEmail(email, "Neue Immobilienangebote", newImmobiles);
+                    logger.info("Email notification sent to: " + email);
+                }                logger.info("Email notification sent.");
             }
         }
         catch (Exception e)

@@ -47,13 +47,11 @@ public class ImmobileService
             // Create and save Immobile objects here
             Immobile immobile1 = new Immobile("House", "Beautiful House", "$30,000", "123 Main St", "200 sq. ft", "image1.jpg","");
             Immobile immobile2 = new Immobile("Apartment", "Cozy Apartment", "$15,000", "456 Elm St", "150 sq. ft", "image2.jpg","");
-
-            // Save the Immobile objects using the service if they do not already exist
             saveIfNotExists(immobile1);
             saveIfNotExists(immobile2);
         } catch (Exception e) {
             // Handle any exceptions that occur during initialization
-            e.printStackTrace(); // You can log the exception or perform other actions here
+            e.printStackTrace();
         }
     }
 
