@@ -40,14 +40,13 @@ public class ScraperStarter
             // Send email notification if there are new listings
             if (!newImmobiles.isEmpty())
             {
-                EmailSender.sendEmail("kevinxhunga1@gmail.com", "New Listings Available", newImmobiles);
+                EmailSender.sendEmail("kevinxhunga1@gmail.com", "Neue Immobilienangebote", newImmobiles);
                 logger.info("Email notification sent.");
             }
         }
         catch (Exception e)
         {
             logger.error("Error during processing or email sending: " + e.getMessage());
-            // Further exception handling logic if necessary
         }
     }
 }
