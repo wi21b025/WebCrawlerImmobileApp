@@ -2,7 +2,7 @@ package model;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "Users") // Specify the collection name here
+@Document(collection = "Users")
 
 public class User
 {
