@@ -8,8 +8,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling
 @ComponentScan(basePackages = {"scraper", "service", "notification"})
-public class WebCrawlerImmobileApplication {
-    public static void main(String[] args) {
+public class WebCrawlerImmobileApplication
+{
+    public static void main(String[] args)
+    {
         SpringApplication.run(WebCrawlerImmobileApplication.class, args);
     }
 }
