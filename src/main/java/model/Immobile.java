@@ -16,6 +16,9 @@ public class Immobile
     private String imageUrl;
     private String room;
 
+    private String preisProQdrMeter;
+
+    private String viewLink;
     // Constructors
 
     public Immobile()  {    }
@@ -77,8 +80,50 @@ public class Immobile
     public String getRoom() {  return room;   }
     public void setRoom(String room) {  this.room = room;  }
 
-    // Additional methods
+    public void setPreisProSqMeter() {
+        // Check if price or size is null or empty
+        if (this.price == null || this.price.isEmpty() || this.size == null || this.size.isEmpty()) {
+            this.preisProQdrMeter = "NA";
+            return;
+        }
 
+        try {
+            String numericPrice = this.price.replaceAll("[^\\d.]", "");
+            String numericSize = this.size.replaceAll("[^\\d.]", "");
+
+            double priceValue = Double.parseDouble(numericPrice);
+            double sizeValue = Double.parseDouble(numericSize);
+
+            if (sizeValue == 0) {
+                this.preisProQdrMeter = "NA";
+                return;
+            }
+
+            // Calculate and set price per square meter
+            this.preisProQdrMeter = "€ " + String.format("%.2f", priceValue / sizeValue);
+        } catch (NumberFormatException e) {
+            this.preisProQdrMeter = "NA";
+        }
+    }
+
+
+    public String getPreisProSqMeter()
+    {
+        setPreisProSqMeter();
+        return this.preisProQdrMeter;
+    }
+
+
+
+    public void setViewLink(String viewLink)
+    {
+        this.viewLink = viewLink;
+    }
+
+    public String getViewLink()
+    {
+        return this.viewLink;
+    }
     @Override
     public String toString() {
         return "Immobile{" +
@@ -89,6 +134,11 @@ public class Immobile
                 ", size='" + size + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", room='" + room + '\'' +
+                ", preisProSqMeter='" + preisProQdrMeter + '\'' +
+                ", viewLink='" + viewLink + '\'' +
                 '}';
     }
+
+
+
 }

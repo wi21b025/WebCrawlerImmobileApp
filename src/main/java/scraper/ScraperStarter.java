@@ -23,7 +23,7 @@ public class ScraperStarter
     public ScraperStarter(DataScraper dataScraper, DataProcessor dataProcessor, UserService userService) {
         this.dataScraper = dataScraper;
         this.dataProcessor = dataProcessor;
-        this.userService = userService; // Initialize UserService
+        this.userService = userService;
     }
 
     @PostConstruct
@@ -42,7 +42,7 @@ public class ScraperStarter
             logger.info("Number of new immobiles: " + newImmobiles.size());
 
             // Send email notification if there are new listings
-            if (!newImmobiles.isEmpty())
+           if (!newImmobiles.isEmpty())
             {
                 List<String> userEmails = userService.getAllUserEmails(); // Fetch user emails
                 logger.info("Number of user emails: " + userEmails.size());
@@ -51,6 +51,8 @@ public class ScraperStarter
                     logger.info("Email notification sent to: " + email);
                 }                logger.info("Email notification sent.");
             }
+
+
         }
         catch (Exception e)
         {

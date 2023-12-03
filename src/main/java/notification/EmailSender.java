@@ -26,8 +26,7 @@ public class EmailSender {
         for (Immobile newImmobile : newImmobiles) {
             logger.info("Immobile: " + newImmobile.getTitle() + ", Rooms: " + newImmobile.getRoom() + ", Size: " + newImmobile.getSize());
 
-            // Check if newImmobile meets the criteria to be considered "new"
-            // Extract the relevant data from newImmobile and create a map
+
             Map<String, String> listing = new HashMap<>();
             listing.put("title", newImmobile.getTitle());
             listing.put("imageUrl", newImmobile.getImageUrl());
@@ -35,6 +34,8 @@ public class EmailSender {
             listing.put("address", newImmobile.getAddress());
             listing.put("rooms", newImmobile.getRoom());
             listing.put("sizes", newImmobile.getSize());
+            listing.put("pricesqm", newImmobile.getPreisProSqMeter());
+            listing.put("viewLink", newImmobile.getViewLink());
             newImmobileListings.add(listing);
         }
 

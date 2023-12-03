@@ -42,22 +42,6 @@ public class ImmobileService
 
 
 
-   /* public void initializeImmobile() {
-        try {
-            // Create and save Immobile objects here
-            Immobile immobile1 = new Immobile("House", "Beautiful House", "$30,000", "123 Main St", "200 sq. ft", "image1.jpg","");
-            Immobile immobile2 = new Immobile("Apartment", "Cozy Apartment", "$15,000", "456 Elm St", "150 sq. ft", "image2.jpg","");
-            saveIfNotExists(immobile1);
-            saveIfNotExists(immobile2);
-        } catch (Exception e) {
-            // Handle any exceptions that occur during initialization
-            e.printStackTrace();
-        }
-    }
-
-    */
-
-
 
     public Immobile createImmobile(String category, String address, String size)
     {

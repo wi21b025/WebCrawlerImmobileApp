@@ -17,7 +17,7 @@ import java.util.List;
 public class DataProcessor {
     private static final Logger logger = LoggerFactory.getLogger(DataProcessor.class);
     private final ImmobileService immobileService;
-    private final DataScraper dataScraper; // Assuming you have a DataScraper bean
+    private final DataScraper dataScraper;
 
     public DataProcessor(ImmobileService immobileService, DataScraper dataScraper) {
         this.immobileService = immobileService;
@@ -65,7 +65,7 @@ public class DataProcessor {
             Immobile immobile = new Immobile();
 
             // Extracting title
-            Element titleElement = listing.selectFirst("h3.cAEnXu");
+            Element titleElement = listing.selectFirst("h3.iPrWBD");
             immobile.setTitle(titleElement != null ? titleElement.text() : "");
 
             // Extracting price
@@ -79,11 +79,20 @@ public class DataProcessor {
             }
 
             // Extracting address
-            Element addressElement = listing.selectFirst("span.gJVhIs");
+            Element addressElement = listing.selectFirst("span.kmXElp");
             immobile.setAddress(addressElement != null ? addressElement.text() : "");
 
+            // Extracting view link
+            Element viewLinkElement = listing.selectFirst("a[href]");
+            if (viewLinkElement != null) {
+                String viewLinkHref = viewLinkElement.attr("href");
+                immobile.setViewLink("https://www.willhaben.at" + viewLinkHref); // Prepend base URL
+            } else {
+                immobile.setViewLink("");
+            }
+
             // Extracting size and room
-            Elements attributes = listing.select("div[data-testid^='search-result-entry-teaser-attributes-'] span.kfjJUa");
+           Elements attributes = listing.select("div[data-testid^='search-result-entry-teaser-attributes-'] span.jWysWP");
             for (Element attribute : attributes) {
                 String text = attribute.parent().text();
                 if (text.contains("m²")) {
@@ -92,6 +101,7 @@ public class DataProcessor {
                     immobile.setRoom(attribute.text() + " Zimmer");
                 }
             }
+
 
             // Extracting image URL
             Element imageElement = listing.selectFirst("img[src]");
@@ -112,6 +122,8 @@ public class DataProcessor {
         logger.info("Size: " + immobile.getSize());
         logger.info("Image URL: " + immobile.getImageUrl());
         logger.info("Rooms: " + immobile.getRoom());
+        logger.info("PreisProSqMeter: " + immobile.getPreisProSqMeter());
+        logger.info("viewLink: " + immobile.getViewLink());
         logger.info("");
     }
 }

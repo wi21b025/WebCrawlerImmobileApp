@@ -97,7 +97,8 @@ public class DataScraper
         WebElement divContent = driver.findElement(By.id("skip-to-resultlist"));
         return divContent.getAttribute("outerHTML");
     }
-    private boolean navigateToNextPage() {
+    private boolean navigateToNextPage()
+    {
         WebElement weiterButton = driver.findElement(By.xpath("//a[@data-testid='pagination-top-next-button']"));
         weiterButton.click();
         logger.info("Navigated to the next page");

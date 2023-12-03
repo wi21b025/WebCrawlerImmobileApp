@@ -29,7 +29,20 @@
             .info-container {
                 display: flex;
                 justify-content: space-between;
-                width: 100%; /* Adjust the width as needed */
+            }
+            .info-column {
+                width: 50%; /* Each column takes half the width */
+                padding: 0 15px; /* Adjust padding accordingly */
+            }
+            .button-link {
+                display: inline-block;
+                background-color: #007bff;
+                color: #ffffff;
+                text-decoration: none;
+                padding: 10px 20px;
+                border-radius: 5px;
+                text-align: center;
+                margin-top: 20px; /* Space from the info */
             }
             .listing {
                 margin-bottom: 20px;
@@ -58,41 +71,47 @@
                 <p>Lieber Abonnent!</p>
                 <p>Wir freuen uns, Ihnen unsere neuesten Immobilienangebote vorzustellen.
                     <br/> Unser engagiertes Team hat eine Auswahl atemberaubender Immobilien zusammengestellt, die Ihren Vorlieben entsprechen. Ganz gleich, ob Sie auf der Suche nach Ihrem Traumhaus oder einer cleveren Investitionsmöglichkeit sind: Unter unseren neuen Angeboten werden Sie etwas Besonderes finden.</p>
-                <!-- Iterate through the list of new listings -->
+
                 <div th:each="listing : ${listings}" class="listing">
                     <center>
                         <h2 th:text="${listing.title}">Listing Title</h2>
                         <img th:src="${listing.imageUrl}" alt="Listing Image"/><br/>
                         <p>
                             <span>&#128205;</span> <!-- Map icon here -->
-                            <span th:text="${listing.address}">Address</span> <!-- Address text -->
+                           <!-- <span th:text="${listing.address}">Address</span>--> <!-- Address text -->
+                            <span>
+                              <a th:href="@{'https://www.google.com/maps/search/?api=1&query=' + ${listing.address}}" target="_blank" th:text="${listing.address}">Address</a>
+                            </span>
                         </p>
                     </center>
-                    <div style="padding: 10px 30px;">
+                    <div>
                         <center>
                             <div class="info-container">
-                                <div style="width:33.3%; padding: 0 30px">
-                                    <p th:text="${listing.rooms}" >Rooms</p>
+                                <div class="info-column">
+                                    <p th:text="${listing.rooms}">Rooms</p>
+                                    <p th:text="${listing.price}"><b>Price</b></p>
                                 </div>
-                                <div style="width:33.3%; padding: 0 30px">
-                                    <b>
-                                        <p th:text="${listing.price}">Price</p>
-                                    </b>
-                                </div>
-                                <div style="width:33.3%; padding: 0 30px">
-                                     <p th:text="${listing.sizes}">Size</p>
+                                <div class="info-column">
+                                    <p th:text="${listing.sizes}">Size</p>
+                                    <p th:text="${listing.pricesqm}">Price pro sq meter</p>
                                 </div>
                             </div>
+                            <br/>
+                            <a th:href="${listing.viewLink}" class="button-link">Anzeige öffnen</a>
+                            <br/>
+                            <br/>
                         </center>
                     </div>
                 </div>
             </div>
-            <div class="footer" style="text-align: center; padding: 20px 0;">
+            <div class="footer" style="text-align: center;">
                 <p style="font-size: 14px;">&copy; 2023 Immobilien Crawler. Alle Rechte vorbehalten.</p>
                 <p style="font-size: 12px;">Sie erhalten diese E-Mail, weil Sie sich auf unserer Website dafür registriert haben.</p>
-                <p style="font-size: 12px;">Email: <a href="mailto:crawlerimmobilien@gmail.com" style="color:white;">crawlerimmobilien@gmail.com</a></a></p>
+                <p style="font-size: 12px;">Email:crawlerimmobilien@gmail.com</p>
                 <p style="font-size: 12px;">Aktualisieren Sie Ihre E-Mail-Einstellungen oder melden Sie sich ab</p>
             </div>
+
+
 
         </div>
     </body>
