@@ -49,7 +49,7 @@ public class DataProcessor {
         }
 
         logger.info("Data processing completed.");
-        return newImmobiles; // Return the list of new immobiles
+        return newImmobiles;
     }
 
     private List<Immobile> cleaningData(String rawData) {

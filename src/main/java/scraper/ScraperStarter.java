@@ -2,11 +2,12 @@ package scraper;
 
 import jakarta.annotation.PostConstruct;
 import model.Immobile;
+import model.User;
 import notification.EmailSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import scraper.src.WillhabenLinks;
 import service.UserService;
 
 import java.util.List;
@@ -28,35 +29,34 @@ public class ScraperStarter
 
     @PostConstruct
     //@Scheduled(fixedRate = 300000)
-    @Scheduled(fixedDelay = 300000) // 300000 milliseconds = 5 minutes after the last task completed
+    //@Scheduled(fixedDelay = 300000) // 300000 milliseconds = 5 minutes after the last task completed
 
     public void startScraping()
     {
-        // Start the scraping process
-        String scrapedData = dataScraper.scrapeData();
-        logger.warn("Scraped Data: " + scrapedData);
-
-        try {
-            // Process the scraped data
-            List<Immobile> newImmobiles = dataProcessor.processData(scrapedData);
-            logger.info("Number of new immobiles: " + newImmobiles.size());
-
-            // Send email notification if there are new listings
-           if (!newImmobiles.isEmpty())
-            {
-                List<String> userEmails = userService.getAllUserEmails(); // Fetch user emails
-                logger.info("Number of user emails: " + userEmails.size());
-                for (String email : userEmails) {
-                    EmailSender.sendEmail(email, "Neue Immobilienangebote", newImmobiles);
-                    logger.info("Email notification sent to: " + email);
-                }                logger.info("Email notification sent.");
-            }
 
 
-        }
-        catch (Exception e)
+        List<User> users = userService.getAllUsers();
+
+        for (User user : users)
         {
-            logger.error("Error during processing or email sending: " + e.getMessage());
+            try {
+
+                String userSpecificURL = WillhabenLinks.getUrlForUser(user);
+
+                String scrapedData = dataScraper.scrapeData(userSpecificURL);
+
+                logger.warn("Scraped Data: " + scrapedData);
+
+                List<Immobile> newImmobiles = dataProcessor.processData(scrapedData);
+
+                if (!newImmobiles.isEmpty())
+                {
+                    EmailSender.sendEmail(user.getEmail(), "Neue Immobilienangebote", newImmobiles);
+                    logger.info("Email sent to: " + user.getEmail());
+                }
+            } catch (Exception e) {
+                logger.error("Error during scraping process for " + user.getEmail(), e);
+            }
         }
     }
 }

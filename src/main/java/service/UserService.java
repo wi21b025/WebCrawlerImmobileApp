@@ -20,5 +20,7 @@ public class UserService {
         List<User> users = mongoTemplate.find(new Query(), User.class);
         return users.stream().map(User::getEmail).collect(Collectors.toList());
     }
-
+    public List<User> getAllUsers() {
+        return mongoTemplate.find(new Query(), User.class);
+    }
 }
