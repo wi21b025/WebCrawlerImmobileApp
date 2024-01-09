@@ -1,13 +1,13 @@
-package scraper;
+package crawler;
 
 import jakarta.annotation.PostConstruct;
 import model.Immobile;
 import model.User;
-import notification.EmailSender;
+import crawler.notification.EmailSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import scraper.src.WillhabenLinks;
+import crawler.util.WillhabenLinks;
 import service.UserService;
 
 import java.util.List;

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="de" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>CrawlerImmobilien|Über uns</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+
+    <!-- Bootstrap CSS File -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- Libraries CSS Files -->
+    <link href="/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Main Stylesheet File -->
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+<!--/ Nav Star /-->
+<nav class="navbar navbar-default navbar-trans navbar-expand-lg fixed-top">
+    <div class="container">
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarDefault"
+                aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <a class="navbar-brand text-brand" th:href="@{/index}">Crawler<span class="color-b">Immobilien</span></a>
+
+        <div class="navbar-collapse collapse justify-content-center" id="navbarDefault">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/index}">Startseite</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" th:href="@{/about}">Über uns</a>
+                </li>
+                <li class="nav-item" th:if="${session.user != null}">
+                    <a class="nav-link" th:href="@{/filter}">Filter</a>
+                </li>
+                <li class="nav-item" th:if="${session.user != null}">
+                    <a class="nav-link" th:href="@{/profil}">Profil</a>
+                </li>
+                <li class="nav-item" th:if="${session.user == null}">
+                    <a class="nav-link" th:href="@{/auth}">Anmelden</a>
+                </li>
+
+                <li class="nav-item" th:if="${session.user != null}">
+                    <!-- This link looks like a normal link but will submit the form below when clicked -->
+                    <a class="nav-link" href="#" onclick="document.getElementById('logoutForm').submit(); return false;">Abmelden</a>
+
+                    <!-- Hidden logout form -->
+                    <form id="logoutForm" th:action="@{/logout}" method="post" style="display: none;">
+                        <input type="submit" value="logout">
+                    </form>
+
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!--/ Nav End /-->
+
+<!--/ Intro Single star /-->
+<section class="intro-single">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-lg-8">
+                <div class="title-single-box">
+                    <h1 class="title-single">Alles über uns!</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--/ Intro Single End /-->
+
+<!--/ About Star /-->
+<section class="section-about" style="padding-bottom: 300px;">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-12 section-t8">
+                <div class="row">
+                    <div class="col-md-6 col-lg-5">
+                        <img src="img/about-img1.png" alt="" class="img-fluid">
+                    </div>
+                    <div class="col-lg-2  d-none d-lg-block">
+                        <div class="title-vertical d-flex justify-content-start">
+                            <span>CrawlerImmobilien Exclusive Property</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-5 section-md-t3">
+                        <div class="title-box-d">
+                            <h3 class="title-d">Sed
+                                <span class="color-d">porttitor</span> lectus
+                                <br> nibh.</h3>
+                        </div>
+                        <p class="color-text-a">
+                            Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vivamus magna justo, lacinia eget
+                            consectetur sed, convallis
+                            at tellus. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum
+                            ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit
+                            neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.
+                        </p>
+                        <p class="color-text-a">
+                            Sed porttitor lectus nibh. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus.
+                            Mauris blandit aliquet
+                            elit, eget tincidunt nibh pulvinar a. Vivamus magna justo, lacinia eget consectetur sed,
+                            convallis at tellus.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--/ About End /-->
+
+<!--/ Footer Start /-->
+
+<footer>
+    <div class="container">
+
+
+            <p class="copyright color-text-a">
+                &copy; Copyright
+                <span class="color-a">CrawlerImmobilien</span> All Rights Reserved.
+            </p>
+
+    </div>
+</footer>
+<!--/ Footer End /-->
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+<!-- JavaScript Libraries -->
+<script src="/lib/owlcarousel/owl.carousel.min.js"></script>
+
+
+<!-- Template Main Javascript File -->
+<script src="/js/main.js"></script>
+
+</body>
+</html>

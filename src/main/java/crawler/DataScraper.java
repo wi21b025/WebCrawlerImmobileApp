@@ -1,4 +1,4 @@
-package scraper;
+package crawler;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
@@ -29,7 +29,7 @@ public class DataScraper
 
         // Uncomment below lines to use headless Firefox
         FirefoxOptions options = new FirefoxOptions();
-        //options.addArguments("--headless");
+        options.addArguments("--headless");
         this.driver = new FirefoxDriver(options);
 
 

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="de" xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="utf-8">
+  <title>CrawlerImmobilien|Startseite</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+
+  <!-- Bootstrap CSS File -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <!-- Libraries CSS Files -->
+  <link href="/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+  <!-- Main Stylesheet File -->
+  <link href="/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+   <!--/ Nav Star /-->
+  <nav class="navbar navbar-default navbar-trans navbar-expand-lg fixed-top">
+    <div class="container">
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarDefault"
+        aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <a class="navbar-brand text-brand" th:href="@{/index}">Crawler<span class="color-b">Immobilien</span></a>
+
+      <div class="navbar-collapse collapse justify-content-center" id="navbarDefault">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" th:href="@{/index}">Startseite</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/about}">Über uns</a>
+          </li>
+          <li class="nav-item" th:if="${session.user != null}">
+            <a class="nav-link" th:href="@{/filter}">Filter</a>
+          </li>
+          <li class="nav-item" th:if="${session.user != null}">
+            <a class="nav-link" th:href="@{/profil}">Profil</a>
+          </li>
+          <li class="nav-item" th:if="${session.user == null}">
+            <a class="nav-link" th:href="@{/auth}">Anmelden</a>
+          </li>
+          <li class="nav-item" th:if="${session.user != null}">
+            <!-- This link looks like a normal link but will submit the form below when clicked -->
+            <a class="nav-link" href="#" onclick="document.getElementById('logoutForm').submit(); return false;">Abmelden</a>
+
+            <!-- Hidden logout form -->
+            <form id="logoutForm" th:action="@{/logout}" method="post" style="display: none;">
+              <input type="submit" value="logout">
+            </form>
+
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!--/ Nav End /-->
+
+  <!--/ Carousel Star /-->
+  <div class="intro intro-carousel">
+    <div id="carousel" class="owl-carousel owl-theme">
+      <div class="carousel-item-a intro-item bg-image" style="background-image: url(/img/carousel-img1.jpg)">
+        <div class="overlay overlay-a"></div>
+        <div class="intro-content display-table">
+          <div class="table-cell">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-8">
+                  <div class="intro-body">
+                    <h1 class="intro-title mb-4">
+                      <span class="color-b">Dein </span> Haus
+                      <br>finden</h1>
+                    <a href="/filter" style="font-size:27px;width: 250px; border-radius:20px; border:3px solid;" type="button" class="btn btn-outline-warning" ><span style="color:white"><b>Jetzt finden!</b></span></a>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item-a intro-item bg-image" style="background-image: url(/img/carousel-img2.jpg)">
+        <div class="overlay overlay-a"></div>
+        <div class="intro-content display-table">
+          <div class="table-cell">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-8">
+                  <div class="intro-body">
+                    <h1 class="intro-title mb-4">
+                      <span class="color-b">Neue </span> Wohnung
+                      <br>kaufen</h1>
+						<a href="/filter" style="font-size:27px;width: 250px; border-radius:20px;  border:3px solid;" type="button" class="btn btn-outline-warning"><span style="color:white"><b>Jetzt finden!</b></span></a>
+
+					</div>  
+				</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item-a intro-item bg-image" style="background-image: url(/img/carousel-img3.jpg)">
+        <div class="overlay overlay-a"></div>
+        <div class="intro-content display-table">
+          <div class="table-cell">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-8">
+                  <div class="intro-body">
+                    
+                    <h1 class="intro-title mb-4">
+                      <span class="color-b">Neue </span> Wohnung
+                      <br>mieten</h1>
+                   	<a href="/filter" style="font-size:27px;width: 250px; border-radius:20px; border:3px solid;" type="button" class="btn btn-outline-warning"><span style="color:white"><b>Jetzt finden!</b></span></a>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/ Carousel end /-->
+  <footer>
+    <div class="container">
+       <p class="copyright color-text-a">
+              &copy; Copyright <span class="color-a">CrawlerImmobilien</span> All Rights Reserved.
+       </p>
+    </div>
+  </footer>
+  <!--/ Footer End /-->
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+  <!-- JavaScript Libraries -->
+  <script src="/lib/owlcarousel/owl.carousel.min.js"></script>
+
+
+  <!-- Template Main Javascript File -->
+  <script src="/js/main.js"></script>
+
+</body>
+</html>

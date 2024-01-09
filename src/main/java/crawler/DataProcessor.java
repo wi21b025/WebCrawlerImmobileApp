@@ -1,4 +1,4 @@
-package scraper;
+package crawler;
 
 import model.Immobile;
 import org.jsoup.Jsoup;
@@ -40,7 +40,8 @@ public class DataProcessor {
         List<Immobile> newImmobiles = new ArrayList<>();
 
         // Print and save each Immobile object
-        for (Immobile immobile : cleanedData) {
+        for (Immobile immobile : cleanedData)
+        {
             printImmobile(immobile);
             boolean isNew = immobileService.saveImmobile(immobile);
             if (isNew) {
@@ -59,13 +60,12 @@ public class DataProcessor {
         // Parse the raw HTML data using Jsoup
         Document doc = Jsoup.parse(rawData);
         Elements listings = doc.select("a[data-testid^='search-result-entry-header-']");
-        logger.info("Number of listings found: " + listings.size());
 
         for (Element listing : listings) {
             Immobile immobile = new Immobile();
 
             // Extracting title
-            Element titleElement = listing.selectFirst("h3.iPrWBD");
+            Element titleElement = listing.selectFirst("h3.Text-sc-10o2fdq-0");
             immobile.setTitle(titleElement != null ? titleElement.text() : "");
 
             // Extracting price
@@ -79,7 +79,7 @@ public class DataProcessor {
             }
 
             // Extracting address
-            Element addressElement = listing.selectFirst("span.kmXElp");
+            Element addressElement = listing.selectFirst("span.Text-sc-10o2fdq-0.bFMMYK");
             immobile.setAddress(addressElement != null ? addressElement.text() : "");
 
             // Extracting view link
@@ -92,7 +92,7 @@ public class DataProcessor {
             }
 
             // Extracting size and room
-           Elements attributes = listing.select("div[data-testid^='search-result-entry-teaser-attributes-'] span.jWysWP");
+           Elements attributes = listing.select("div[data-testid^='search-result-entry-teaser-attributes-'] span.gTqzpY");
             for (Element attribute : attributes) {
                 String text = attribute.parent().text();
                 if (text.contains("m²")) {

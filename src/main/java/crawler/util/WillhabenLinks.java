@@ -1,4 +1,4 @@
-package scraper.src;
+package crawler.util;
 
 import model.User;
 

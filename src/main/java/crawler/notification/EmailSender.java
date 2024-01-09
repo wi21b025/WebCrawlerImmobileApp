@@ -1,4 +1,4 @@
-package notification;
+package crawler.notification;
 
 import model.Immobile;
 import org.slf4j.Logger;
@@ -100,7 +100,7 @@ public class EmailSender {
             context.setVariables(templateModel);
 
             // Process the Thymeleaf template
-            String htmlContent = templateEngine.process("email-template", context);
+            String htmlContent = templateEngine.process("email-template/email-template", context);
             message.setContent(htmlContent, "text/html; charset=utf-8");
 
             logger.info("Email message prepared successfully.");
