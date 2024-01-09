@@ -1,6 +1,6 @@
 package service;
 
-import database.MongoDbConfig;
+import config.mongodb.MongoDbConfig;
 import model.Immobile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +33,8 @@ public class ImmobileService
         try
         {
             return saveIfNotExists(immobile); // Return the result of saveIfNotExists
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             e.printStackTrace();
             return false; // Indicate failure in case of exception

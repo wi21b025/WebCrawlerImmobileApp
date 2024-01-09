@@ -49,9 +49,7 @@ public class Immobile
     public void setCategory(String category) {
         this.category = category;
     }
-    public String getTitle() {
-        return title;
-    }
+    public String getTitle() {  return title; }
     public void setTitle(String title) {
         this.title = title;
     }
@@ -88,7 +86,7 @@ public class Immobile
         }
 
         try {
-            String numericPrice = this.price.replaceAll("[^\\d.]", "");
+            String numericPrice = this.price.replaceAll("[^\\d,]", "");
             String numericSize = this.size.replaceAll("[^\\d.]", "");
 
             double priceValue = Double.parseDouble(numericPrice);

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="de" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>CrawlerImmobilien|Filter erzeugen</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+
+    <!-- Bootstrap CSS File -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- Libraries CSS Files -->
+    <link href="/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Main Stylesheet File -->
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+<!--/ Nav Star /-->
+<nav class="navbar navbar-default navbar-trans navbar-expand-lg fixed-top">
+    <div class="container">
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarDefault"
+                aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <a class="navbar-brand text-brand" th:href="@{/index}">Crawler<span class="color-b">Immobilien</span></a>
+        <div class="navbar-collapse collapse justify-content-center" id="navbarDefault">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/index}">Startseite</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/about}">Über uns</a>
+                </li>
+                <li class="nav-item" th:if="${session.user != null}">
+                    <a class="nav-link active" th:href="@{/filter}">Filter</a>
+                </li>
+                <li class="nav-item" th:if="${session.user != null}">
+                    <a class="nav-link" th:href="@{/profil}">Profil</a>
+                </li>
+                <li class="nav-item" th:if="${session.user == null}">
+                    <a class="nav-link" th:href="@{/auth}">Anmelden</a>
+                </li>
+
+                <li class="nav-item" th:if="${session.user != null}">
+                    <!-- This link looks like a normal link but will submit the form below when clicked -->
+                    <a class="nav-link" href="#" onclick="document.getElementById('logoutForm').submit(); return false;">Abmelden</a>
+
+                    <!-- Hidden logout form -->
+                    <form id="logoutForm" th:action="@{/logout}" method="post" style="display: none;">
+                        <input type="submit" value="logout">
+                    </form>
+
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!--/ Nav End /-->
+
+<!--/ Intro Single star /-->
+<section class="intro-single">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-lg-8">
+                <div class="title-single-box">
+                    <h1 class="title-single">Personalisierte Filter erzeugen!</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--/ Intro Single End /-->
+
+<!--/ Filter Star /-->
+<section class="container mt-1 pb-5">
+    <form action="/saveFilter" method="post">
+
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <label for="preis_from" class="small-label">Preis (€) - Von</label>
+                <input type="number" class="form-control" id="preis_from" name="preis_from">
+            </div>
+            <div class="col-sm-6">
+                <label for="preis_to" class="small-label">Preis (€) - Bis</label>
+                <input type="number" class="form-control" id="preis_to" name="preis_to">
+            </div>
+        </div>
+
+        <style>
+            .small-label {
+                font-size: 1rem;
+            }
+        </style>
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <label for="area_from" class="small-label">Fläche (m²) - Von</label>
+                <input type="number" class="form-control" id="area_from" name="area_from" step="0.01">
+            </div>
+            <div class="col-sm-6">
+                <label for="area_to" class="small-label">Fläche (m²) - Bis</label>
+                <input type="number" class="form-control" id="area_to" name="area_to" step="0.01">
+            </div>
+        </div>
+
+        <style>
+            .small-label {
+                font-size: 1rem;
+            }
+        </style>
+
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <label for="preis_sq_2_from" class="small-label">€ pro m² - Von</label>
+                <input type="number" class="form-control" id="preis_sq_2_from" name="preis_sq_2_from" step="0.01">
+            </div>
+            <div class="col-sm-6">
+                <label for="preis_sq_2_to" class="small-label">€ pro m² - Bis</label>
+                <input type="number" class="form-control" id="preis_sq_2_to" name="preis_sq_2_to" step="0.01">
+            </div>
+        </div>
+
+        <style>
+            .small-label {
+                font-size: 1rem; /
+            }
+        </style>
+        <div class="form-group">
+            <label>Kategorie</label>
+            <select class="form-control" name="kategorie" required>
+                <option value="">Bitte wählen</option>
+                <option value="Haus kaufen">Haus kaufen</option>
+                <option value="Haus mieten">Haus mieten</option>
+                <option value="Wohnung kaufen">Wohnung kaufen</option>
+                <option value="Wohnung mieten">Wohnung mieten</option>
+                <option value="Grundstücke">Grundstücke</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Bundesland</label>
+            <select class="form-control" name="bundesland" id="bundeslandDropdown" onchange="handleBundeslandChange(this.value);" required>
+                <option value="">Bitte wählen</option>
+                <option value="Wien">Wien</option>
+                <option value="Niederösterreich">Niederösterreich</option>
+                <option value="Oberösterreich">Oberösterreich</option>
+                <option value="Salzburg">Salzburg</option>
+                <option value="Steiermark">Steiermark</option>
+                <option value="Burgenland">Burgenland</option>
+                <option value="Kärnten">Kärnten</option>
+                <option value="Tirol">Tirol</option>
+                <option value="Vorarlberg">Vorarlberg</option>
+
+            </select>
+        </div>
+
+        <div class="form-group" id="bezirkDropdown" style="display:none;">
+            <label>Bezirk</label>
+            <select class="form-control" name="bezirk" id="bezirk" disabled>
+                <option value="">Bitte wählen</option>
+                <option value="1">1. Bezirk</option>
+                <option value="2">2. Bezirk</option>
+                <option value="3">3. Bezirk</option>
+                <option value="4">4. Bezirk</option>
+                <option value="5">5. Bezirk</option>
+                <option value="6">6. Bezirk</option>
+                <option value="7">7. Bezirk</option>
+                <option value="8">8. Bezirk</option>
+                <option value="9">9. Bezirk</option>
+                <option value="10">10. Bezirk</option>
+                <option value="11">11. Bezirk</option>
+                <option value="12">12. Bezirk</option>
+                <option value="13">13. Bezirk</option>
+                <option value="14">14. Bezirk</option>
+                <option value="15">15. Bezirk</option>
+                <option value="16">16. Bezirk</option>
+                <option value="17">17. Bezirk</option>
+                <option value="18">18. Bezirk</option>
+                <option value="19">19. Bezirk</option>
+                <option value="20">20. Bezirk</option>
+                <option value="21">21. Bezirk</option>
+                <option value="22">22. Bezirk</option>
+                <option value="23">23. Bezirk</option>
+            </select>
+        </div>
+
+        <div class="form-group" id="orteDropdown" style="display:none;">
+            <label for="niederosterreichOrt">Ort in Niederösterreich</label>
+            <select class="form-control" name="ort" id="niederosterreichOrt" disabled>
+                <option value="">Bitte wählen</option>
+                <option value="Amstetten">Amstetten</option>
+                <option value="Baden">Baden</option>
+                <option value="Bruck an der Leitha">Bruck an der Leitha</option>
+                <option value="Gmünd">Gmünd</option>
+                <option value="Gänserdorf">Gänserdorf</option>
+                <option value="Hollabrunn">Hollabrunn</option>
+                <option value="Horn">Horn</option>
+                <option value="Korneuburg">Korneuburg</option>
+                <option value="Krems Land">Krems Land</option>
+                <option value="Krems an der Donau">Krems an der Donau</option>
+                <option value="Lilienfeld">Lilienfeld</option>
+                <option value="Melk">Melk</option>
+                <option value="Mistelbach">Mistelbach</option>
+                <option value="Mödling">Mödling</option>
+                <option value="Neukirchen">Neukirchen</option>
+                <option value="Sankt Pölten">Sankt Pölten</option>
+                <option value="Sankt Pölten Land">Sankt Pölten Land</option>
+                <option value="Schreibbs">Schreibbs</option>
+                <option value="Tulln">Tulln</option>
+                <option value="Waidhofen an der Thaya">Waidhofen an der Thaya</option>
+                <option value="Waidhofen an der Ybbs">Waidhofen an der Ybbs</option>
+                <option value="Wiener Neustadt">Wiener Neustadt</option>
+                <option value="Wiener Neustadt Land">Wiener Neustadt Land</option>
+                <option value="Zwettl">Zwettl</option>
+            </select>
+        </div>
+
+        <div class="form-group" id="oberosterreichOrteDropdown" style="display:none;">
+            <label for="oberosterreichOrt">Ort in Oberösterreich</label>
+            <select class="form-control" name="ort" id="oberosterreichOrt" disabled>
+                <option value="">Bitte wählen</option>
+                <option value="Linz">Linz</option>
+                <option value="Wels">Wels</option>
+                <option value="Steyr">Steyr</option>
+                <option value="Leonding">Leonding</option>
+                <option value="Traun">Traun</option>
+                <option value="Braunau am Inn">Braunau am Inn</option>
+                <option value="Ansfelden">Ansfelden</option>
+                <option value="Bad Ischl">Bad Ischl</option>
+                <option value="Vöcklabruck">Vöcklabruck</option>
+                <option value="Gmunden">Gmunden</option>
+                <option value="Marchtrenk">Marchtrenk</option>
+                <option value="Enns">Enns</option>
+                <option value="Ried im Innkreis">Ried im Innkreis</option>
+                <option value="Altmünster">Altmünster</option>
+                <option value="Steyregg">Steyregg</option>
+                <option value="Traiskirchen">Traiskirchen</option>
+                <option value="Laakirchen">Laakirchen</option>
+                <option value="Perg">Perg</option>
+                <option value="Eferding">Eferding</option>
+                <option value="Peuerbach">Peuerbach</option>
+            </select>
+        </div>
+
+        <div class="form-group" id="salzburgOrteDropdown" style="display:none;" >
+            <label for="salzburgOrt">Ort in Salzburg</label>
+            <select class="form-control" name="ort" id="salzburgOrt" disabled>
+                <option value="">Bitte wählen</option>
+                <option value="Hallein">Hallein</option>
+                <option value="Salzburg Stadt">Salzburg Stadt</option>
+                <option value="Salzburg-Umgebung">Salzburg-Umgebung</option>
+                <option value="Sankt Johann im Pongau">Sankt Johann im Pongau</option>
+                <option value="Tamsweg">Tamsweg</option>
+                <option value="Zell am See">Zell am See</option>
+            </select>
+        </div>
+
+        <div class="form-group" id="steiermarkOrteDropdown" style="display:none;">
+            <label for="steiermarkOrt">Ort in Steiermark</label>
+            <select class="form-control" name="ort" id="steiermarkOrt" disabled>
+                <option value="">Bitte wählen</option>
+                <option value="Bruck-Mürzzuschlag">Bruck-Mürzzuschlag</option>
+                <option value="Deutschlandsberg">Deutschlandsberg</option>
+                <option value="Graz">Graz</option>
+                <option value="Graz-Umgebung">Graz-Umgebung</option>
+                <option value="Hartberg-Fürstenfeld">Hartberg-Fürstenfeld</option>
+                <option value="Leibnitz">Leibnitz</option>
+                <option value="Leoben">Leoben</option>
+                <option value="Liezen">Liezen</option>
+                <option value="Murau">Murau</option>
+                <option value="Murtal">Murtal</option>
+                <option value="Südoststeiermark">Südoststeiermark</option>
+                <option value="Voitsberg">Voitsberg</option>
+                <option value="Weiz">Weiz</option>
+            </select>
+        </div>
+
+        <div class="form-group" id="burgenlandOrteDropdown" style="display:none;">
+            <label for="burgenlandOrt">Ort in Burgenland</label>
+            <select class="form-control" name="ort" id="burgenlandOrt" disabled>
+                <option value="">Bitte wählen</option>
+                <option value="Eisenstadt">Eisenstadt</option>
+                <option value="Eisenstadt - Umgebung">Eisenstadt - Umgebung</option>
+                <option value="Güssing">Güssing</option>
+                <option value="Jennersdorf">Jennersdorf</option>
+                <option value="Mattersburg">Mattersburg</option>
+                <option value="Neusiedl am See">Neusiedl am See</option>
+                <option value="Oberpullendorf">Oberpullendorf</option>
+                <option value="Oberwart">Oberwart</option>
+                <option value="Rust">Rust</option>
+            </select>
+        </div>
+
+        <div class="form-group" id="kaerntenOrteDropdown" style="display:none;">
+            <label for="kaerntenOrt">Ort in Kärnten</label>
+            <select class="form-control" name="ort" id="kaerntenOrt" disabled>
+                <option value="">Bitte wählen</option>
+                <option value="Feldkirchen">Feldkirchen</option>
+                <option value="Hermagor">Hermagor</option>
+                <option value="Klagenfurt">Klagenfurt</option>
+                <option value="Klagenfurt Land">Klagenfurt Land</option>
+                <option value="Sankt Veit an der Glan">Sankt Veit an der Glan</option>
+                <option value="Spittal an der Drau">Spittal an der Drau</option>
+                <option value="Villach">Villach</option>
+                <option value="Villach Land">Villach Land</option>
+                <option value="Völkermarkt">Völkermarkt</option>
+                <option value="Wolfsberg">Wolfsberg</option>
+            </select>
+        </div>
+
+        <div class="form-group" id="tirolOrteDropdown" style="display:none;">
+            <label for="tirolOrt">Ort in Tirol</label>
+            <select class="form-control" name="ort" id="tirolOrt" disabled>
+                <option value="">Bitte wählen</option>
+                <option value="Imst">Imst</option>
+                <option value="Innsbruck">Innsbruck</option>
+                <option value="Innsbruck-Land">Innsbruck-Land</option>
+                <option value="Kitzbühel">Kitzbühel</option>
+                <option value="Kufstein">Kufstein</option>
+                <option value="Landeck">Landeck</option>
+                <option value="Lienz">Lienz</option>
+                <option value="Reutte">Reutte</option>
+                <option value="Schwaz">Schwaz</option>
+            </select>
+        </div>
+
+        <div class="form-group" id="vorarlbergOrteDropdown" style="display:none;">
+            <label for="vorarlbergOrt">Ort in Vorarlberg</label>
+            <select class="form-control" name="ort" id="vorarlbergOrt" disabled>
+                <option value="">Bitte wählen</option>
+                <option value="Bludenz">Bludenz</option>
+                <option value="Bregenz">Bregenz</option>
+                <option value="Dornbirn">Dornbirn</option>
+                <option value="Feldkirch">Feldkirch</option>
+            </select>
+        </div>
+        <button class="btn btn-warning mt-3" style="color: white; background-color: #E59F60;" type="submit">Filter Speichern</button>
+    </form>
+
+</section>
+
+
+<!--/ Filter End /-->
+
+<!--/ Footer Start /-->
+
+<footer>
+    <div class="container">
+
+
+            <p class="copyright color-text-a">
+                &copy; Copyright
+                <span class="color-a">CrawlerImmobilien</span> All Rights Reserved.
+            </p>
+
+    </div>
+</footer>
+<!--/ Footer End /-->
+
+<script>
+
+
+
+    function handleBundeslandChange(selectedBundesland) {
+        showBezirkDropdown(selectedBundesland);
+        showOrteDropdown(selectedBundesland);
+        showOberosterreichOrteDropdown(selectedBundesland);
+        showSalzburgOrteDropdown(selectedBundesland);
+        showSteiermarkOrteDropdown(selectedBundesland);
+        showBurgenlandOrteDropdown(selectedBundesland);
+        showKaerntenOrteDropdown(selectedBundesland);
+        showTirolOrteDropdown(selectedBundesland);
+        showVorarlbergOrteDropdown(selectedBundesland);
+
+        // Enable and display the right options in the "ort" dropdown based on the selected "bundesland"
+        if (selectedBundesland === "Wien") {
+            document.getElementById("bezirk").disabled = false;
+
+        }  if (selectedBundesland === "Niederösterreich") {
+            document.getElementById("niederosterreichOrt").disabled = false;
+
+        }  if (selectedBundesland === "Oberösterreich") {
+            document.getElementById("oberosterreichOrt").disabled = false;
+
+        }  if (selectedBundesland === "Salzburg") {
+            document.getElementById("salzburgOrt").disabled = false;
+
+        }  if (selectedBundesland === "Steiermark") {
+            document.getElementById("steiermarkOrt").disabled = false;
+
+        }  if (selectedBundesland === "Burgenland") {
+            document.getElementById("burgenlandOrt").disabled = false;
+
+        }  if (selectedBundesland === "Kärnten") {
+            document.getElementById("kaerntenOrt").disabled = false;
+
+        }  if (selectedBundesland === "Tirol") {
+            document.getElementById("tirolOrt").disabled = false;
+
+        }  if (selectedBundesland === "Vorarlberg") {
+            document.getElementById("vorarlbergOrt").disabled = false;
+        }
+    }
+
+    function showBezirkDropdown(selectedBundesland) {
+        var bezirkDisplay = selectedBundesland === "Wien" ? "block" : "none";
+        document.getElementById("bezirkDropdown").style.display = bezirkDisplay;
+    }
+
+    function showOrteDropdown(selectedBundesland) {
+        var orteDisplay = selectedBundesland === "Niederösterreich" ? "block" : "none";
+        document.getElementById("orteDropdown").style.display = orteDisplay;
+    }
+
+    function showOberosterreichOrteDropdown(selectedBundesland) {
+        var displayStyle = selectedBundesland === "Oberösterreich" ? "block" : "none";
+        document.getElementById("oberosterreichOrteDropdown").style.display = displayStyle;
+    }
+
+    function showSalzburgOrteDropdown(selectedBundesland) {
+        var displayStyle = selectedBundesland === "Salzburg" ? "block" : "none";
+        document.getElementById("salzburgOrteDropdown").style.display = displayStyle;
+    }
+
+    function showSteiermarkOrteDropdown(selectedBundesland) {
+        var displayStyle = selectedBundesland === "Steiermark" ? "block" : "none";
+        document.getElementById("steiermarkOrteDropdown").style.display = displayStyle;
+    }
+
+    function showBurgenlandOrteDropdown(selectedBundesland) {
+        var displayStyle = selectedBundesland === "Burgenland" ? "block" : "none";
+        document.getElementById("burgenlandOrteDropdown").style.display = displayStyle;
+    }
+
+    function showKaerntenOrteDropdown(selectedBundesland) {
+        var displayStyle = selectedBundesland === "Kärnten" ? "block" : "none";
+        document.getElementById("kaerntenOrteDropdown").style.display = displayStyle;
+    }
+
+    function showTirolOrteDropdown(selectedBundesland) {
+        var displayStyle = selectedBundesland === "Tirol" ? "block" : "none";
+        document.getElementById("tirolOrteDropdown").style.display = displayStyle;
+    }
+
+    function showVorarlbergOrteDropdown(selectedBundesland) {
+        var displayStyle = selectedBundesland === "Vorarlberg" ? "block" : "none";
+        document.getElementById("vorarlbergOrteDropdown").style.display = displayStyle;
+    }
+
+</script>
+
+
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+<!-- JavaScript Libraries -->
+<script src="/lib/owlcarousel/owl.carousel.min.js"></script>
+
+<!-- Template Main Javascript File -->
+<script src="/js/main.js"></script>
+
+</body>
+</html>

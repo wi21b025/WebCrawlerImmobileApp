@@ -1,4 +1,4 @@
-package scraper;
+package crawler;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
@@ -20,6 +20,7 @@ public class DataScraper
     private static final Logger logger = LoggerFactory.getLogger(DataScraper.class);
 
     private WebDriver driver;
+    private String userUrl;
 
     public DataScraper()
     {
@@ -36,8 +37,9 @@ public class DataScraper
         //driver = new FirefoxDriver();
     }
 
-    public String scrapeData()
+    public String scrapeData(String url)
     {
+        this.userUrl = url;
         StringBuilder concatenatedContent = new StringBuilder();
 
         try
@@ -45,7 +47,9 @@ public class DataScraper
 
             // Navigate to the URL
             logger.info("Navigating to the URL");
-            driver.get("https://www.willhaben.at/iad/immobilien/ferienimmobilien-mieten/ferienimmobilien-angebote?sfId=d936001c-1c1a-4cd1-b7e1-1fc29703078a&isNavigation=true&page=1&rows=90");
+            driver.get(this.userUrl);
+            logger.info("URL: " + this.userUrl);
+
             closePopup(); // Add this line to close popups
 
             while (true)
@@ -97,22 +101,29 @@ public class DataScraper
         WebElement divContent = driver.findElement(By.id("skip-to-resultlist"));
         return divContent.getAttribute("outerHTML");
     }
-    private boolean navigateToNextPage()
-    {
-        WebElement weiterButton = driver.findElement(By.xpath("//a[@data-testid='pagination-top-next-button']"));
-        weiterButton.click();
-        logger.info("Navigated to the next page");
+    private boolean navigateToNextPage() {
+        try {
+            // Attempt to find the "Next" button
+            WebElement weiterButton = driver.findElement(By.xpath("//a[@data-testid='pagination-top-next-button']"));
 
-        String ariaDisabled = weiterButton.getAttribute("aria-disabled");
-        if (ariaDisabled != null && ariaDisabled.equals("true")) {
-            logger.info("Next page button disabled");
+            // Check if "Next" button is disabled indicating the last page
+            String ariaDisabled = weiterButton.getAttribute("aria-disabled");
+            if ("true".equals(ariaDisabled)) {
+                logger.info("Next page button is disabled, reached the last page.");
+                return false;
+            }
+
+            // Click the button if not disabled
+            weiterButton.click();
+            logger.info("Navigated to the next page");
+            return true;
+        } catch (Exception e) {
+            // Handle the situation where the "Next" button might not be present
+            logger.error("Could not navigate to the next page. It might be the last page or the button is not present");
+            //logger.error("Could not navigate to the next page. It might be the last page or the button is not present: " + e.getMessage());
             return false;
         }
-
-        return true;
     }
-
-
 
 
     /*private boolean navigateToNextPage() {

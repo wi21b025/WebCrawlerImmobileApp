@@ -1,0 +1,69 @@
+@startuml
+
+class Immobile {
+    - String category
+    - String title
+    - String price
+    - String address
+    - String size
+    - String imageUrl
+    - String room
+    - String preisProQdrMeter
+    - String viewLink
+}
+
+class User {
+    - String id
+    - String email
+}
+
+class ImmobileService {
+    + boolean saveImmobile(Immobile)
+    + List<Immobile> searchByCategory(String)
+    + List<Immobile> searchByAddress(String)
+    + List<Immobile> searchBySize(String)
+    + Optional<Immobile> searchByCategoryAndAddressAndSize(String, String, String)
+}
+
+class UserService {
+    + List<String> getAllUserEmails()
+}
+
+class DataScraper {
+    + String scrapeData()
+}
+
+class DataProcessor {
+    - ImmobileService immobileService
+    - DataScraper dataScraper
+    + List<Immobile> processData(String)
+}
+
+class ScraperStarter {
+    - DataScraper dataScraper
+    - DataProcessor dataProcessor
+    - UserService userService
+    + void startScraping()
+}
+
+class EmailSender {
+    + static void sendEmail(String, String, List<Immobile>)
+}
+
+class MongoDbConfig {
+    + MongoTemplate mongoTemplate()
+}
+
+DataProcessor -down-> ImmobileService : Uses
+DataProcessor -down-> DataScraper : Uses
+ScraperStarter -down-> DataScraper : Uses
+ScraperStarter -down-> DataProcessor : Uses
+ScraperStarter -down-> UserService : Uses
+ScraperStarter -down-> EmailSender : Uses
+ImmobileService -down-> MongoDbConfig : Uses
+UserService -down-> MongoDbConfig : Uses
+ImmobileService -right-> Immobile : Uses
+UserService -left-> User : Uses
+EmailSender -down-> Immobile : Uses
+
+@enduml
