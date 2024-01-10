@@ -11,6 +11,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.AuthenticationService;
 import service.UserService;
 
+import java.util.ArrayList;
+
 @Controller
 public class AuthController
 {
@@ -91,6 +93,7 @@ public class AuthController
         // Hash the password before saving it
         String hashedPassword = passwordEncoder.encode(password);
         user.setPassword(hashedPassword);
+        user.setFilters(new ArrayList<>());
 
         boolean saved = userService.saveUser(user);
 

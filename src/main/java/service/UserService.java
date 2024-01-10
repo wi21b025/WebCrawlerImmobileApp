@@ -11,8 +11,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import web.dto.FilterDTO;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -72,6 +71,90 @@ public class UserService {
         );
     }
 
+    public boolean saveUserFilters(String userEmail, List<FilterDTO> filterDTOList) {
+        try {
+            // Find the existing user by email
+            User user = findByEmail(userEmail);
+
+            // If user doesn't exist, handle accordingly (create new or return false)
+            if (user == null) {
+                // Handle the case where the user is not found.
+                // For example, you might want to return false or throw an exception.
+                return false;
+            }
+
+            // Convert List of FilterDTOs to a List of Maps
+            List<Map<String, Object>> filterMaps = new ArrayList<>();
+            for (FilterDTO filterDTO : filterDTOList) {
+                filterMaps.add(filterDTO.toMap());
+            }
+
+            // Set the list of filter maps to the user
+            user.setFilters(filterMaps);
+
+            // Save the user with the new filters to the database
+            mongoTemplate.save(user);
+
+            return true; // Indicate success
+        } catch (Exception e) {
+            // Handle exceptions, such as connection issues or constraints violations
+            e.printStackTrace();
+            return false; // Indicate failure
+        }
+    }
+
+
+    // Helper method to find user by email
+    private User findByEmail(String email) {
+        return mongoTemplate.findOne(Query.query(Criteria.where("email").is(email)), User.class);
+    }
+
+    public List<FilterDTO> getUserFilters(String email) {
+        User user = findByEmail(email);
+        if (user != null && user.getFilters() != null) {
+            List<Map<String, Object>> filterList = user.getFilters();
+            List<FilterDTO> filterDTOList = new ArrayList<>();
+
+            for (Map<String, Object> filterMap : filterList) {
+                filterDTOList.add(convertMapToFilterDTO(filterMap));
+            }
+
+            return filterDTOList;
+        }
+        return Collections.emptyList();
+    }
+
+
+
+
+    // Helper method to convert Map to FilterDTO
+    private FilterDTO convertMapToFilterDTO(Map<String, Object> filterMap) {
+        logger.info("Converting filterMap to FilterDTO: {}", filterMap); // Add this logging
+
+        if (filterMap == null) {
+            return null; // Or handle the null case as needed
+        }
+
+        FilterDTO filterDTO = new FilterDTO();
+
+        filterDTO.setBundesland((String) filterMap.get("bundesland"));
+        filterDTO.setOrt((String) filterMap.get("ort"));
+        filterDTO.setBezirk(filterMap.get("bezirk") != " " ? (String) filterMap.get("bezirk") : "");
+        filterDTO.setPreis_from((String) filterMap.get("preis_von"));
+        filterDTO.setPreis_to((String) filterMap.get("preis_bis"));
+        filterDTO.setArea_from((String) filterMap.get("fläche_von"));
+        filterDTO.setArea_to((String) filterMap.get("fläche_bis"));
+        filterDTO.setPreis_sq_2_from((String) filterMap.get("preis_sq_2_von"));
+        filterDTO.setPreis_sq_2_to((String) filterMap.get("preis_sq_2_bis"));
+        filterDTO.setKategorie((String) filterMap.get("kategorie"));
+
+        // Assuming "uid" is part of the map
+        filterDTO.setUid((String) filterMap.get("uid"));
+
+        return filterDTO;
+    }
+
+
     public boolean saveUserFilter(String userEmail, FilterDTO filterDTO) {
         try {
             // Find the existing user by email
@@ -84,11 +167,18 @@ public class UserService {
                 return false;
             }
 
-            // Convert FilterDTO to Map and set it to the user
+            // Convert FilterDTO to Map and set it to the user's filters list
             Map<String, Object> filterMap = filterDTO.toMap();
-            user.setFilter(filterMap);
+            List<Map<String, Object>> userFilters = user.getFilters();
 
-            // Save the user with the new filter to the database
+            if (userFilters == null) {
+                userFilters = new ArrayList<>();
+            }
+
+            userFilters.add(filterMap);
+            user.setFilters(userFilters);
+
+            // Save the user with the updated filters to the database
             mongoTemplate.save(user);
 
             return true; // Indicate success
@@ -98,10 +188,51 @@ public class UserService {
             return false; // Indicate failure
         }
     }
+    public FilterDTO getFilterByUid(String uid) {
+        try {
+            // Query MongoDB to find the filter by uid
+            Query query = new Query(Criteria.where("filters.uid").is(uid));
+            User user = mongoTemplate.findOne(query, User.class);
 
-    // Helper method to find user by email
-    private User findByEmail(String email) {
-        return mongoTemplate.findOne(Query.query(Criteria.where("email").is(email)), User.class);
+            // Check if the user and filter data exist
+            if (user != null && user.getFilters() != null) {
+                List<Map<String, Object>> filterList = user.getFilters();
+
+                // Find the filter with the matching uid
+                Optional<Map<String, Object>> matchingFilter = filterList.stream()
+                        .filter(filterMap -> uid.equals(filterMap.get("uid")))
+                        .findFirst();
+
+                if (matchingFilter.isPresent()) {
+                    // Convert the matching filter map to a FilterDTO
+                    FilterDTO filterDTO = convertMapToFilterDTO(matchingFilter.get());
+                    return filterDTO;
+                }
+            }
+
+            // Handle the case when the filter data is not found
+            return null;
+        } catch (Exception e) {
+            // Handle exceptions, such as connection issues or constraints violations
+            e.printStackTrace();
+            return null;
+        }
+    }
+    // In UserService class
+
+    public boolean deleteUserFilter(String userEmail, String filterUid) {
+        User user = findByEmail(userEmail);
+        if (user != null) {
+            List<Map<String, Object>> filters = user.getFilters();
+            if (filters != null) {
+                boolean isRemoved = filters.removeIf(filter -> filterUid.equals(filter.get("uid")));
+                if (isRemoved) {
+                    mongoTemplate.save(user); // Save the user after removing the filter
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 }

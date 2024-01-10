@@ -1,0 +1,115 @@
+<div class="modal fade bd-example-modal-lg show" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Filter      #<span id="filter-uid-placeholder"></span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+               <form>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label for="preis_from" class="small-label">Preis (€) - Von</label>
+                            <input type="number" class="form-control" id="preis_from" name="preis_from" disabled>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="preis_to" class="small-label">Preis (€) - Bis</label>
+                            <input type="number" class="form-control" id="preis_to" name="preis_to" disabled>
+                        </div>
+                    </div>
+
+                    <style>
+                        .small-label {
+                            font-size: 1rem;
+                        }
+                    </style>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label for="area_from" class="small-label">Fläche (m²) - Von</label>
+                            <input type="number" class="form-control" id="area_from" name="area_from" step="0.01" disabled>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="area_to" class="small-label">Fläche (m²) - Bis</label>
+                            <input type="number" class="form-control" id="area_to" name="area_to" step="0.01" disabled>
+                        </div>
+                    </div>
+
+                    <style>
+                        .small-label {
+                            font-size: 1rem;
+                        }
+                    </style>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label for="preis_sq_2_from" class="small-label">€ pro m² - Von</label>
+                            <input type="number" class="form-control" id="preis_sq_2_from" name="preis_sq_2_from" step="0.01" disabled>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="preis_sq_2_to" class="small-label">€ pro m² - Bis</label>
+                            <input type="number" class="form-control" id="preis_sq_2_to" name="preis_sq_2_to" step="0.01" disabled>
+                        </div>
+                    </div>
+
+                    <style>
+                        .small-label {
+                            font-size: 1rem;
+                        }
+                    </style>
+                    <div class="form-group">
+                        <label>Kategorie</label>
+                        <select class="form-control" name="kategorie" id="kategorieDropdown" disabled>
+                            <option value="">Bitte wählen</option>
+                            <option value="Haus kaufen">Haus kaufen</option>
+                            <option value="Haus mieten">Haus mieten</option>
+                            <option value="Wohnung kaufen">Wohnung kaufen</option>
+                            <option value="Wohnung mieten">Wohnung mieten</option>
+                            <option value="Grundstücke">Grundstücke</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Bundesland</label>
+                        <select class="form-control" name="bundesland" id="bundeslandDropdown" onchange="handleBundeslandChange(this.value);" disabled>
+                            <option value="">Bitte wählen</option>
+                            <option value="Wien">Wien</option>
+                            <option value="Niederösterreich">Niederösterreich</option>
+                            <option value="Oberösterreich">Oberösterreich</option>
+                            <option value="Salzburg">Salzburg</option>
+                            <option value="Steiermark">Steiermark</option>
+                            <option value="Burgenland">Burgenland</option>
+                            <option value="Kärnten">Kärnten</option>
+                            <option value="Tirol">Tirol</option>
+                            <option value="Vorarlberg">Vorarlberg</option>
+
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="bezirkDropdown" style="display:none;">
+                        <label class="small-label">Bezirk</label>
+                        <input class="form-control" type="text" id="bezirk" disabled>
+                    </div>
+
+                    <div class="form-group" id="orteDropdown" style="display:none;">
+                        <label class="small-label">Ort</label>
+                        <input class="form-control" type="text" disabled>
+
+                    </div>
+                    <!--<button class="btn btn-warning mt-3" style="color: white; background-color: #E59F60;" type="submit">Filter Speichern</button>-->
+                </form>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Abrechen</button>
+
+                <button type="button" class="btn btn-danger" onclick="deleteFilter(document.getElementById('filter-uid-placeholder').innerText)">Filter entfernen</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

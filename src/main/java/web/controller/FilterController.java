@@ -2,10 +2,9 @@ package web.controller;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import service.UserService;
 import web.dto.FilterDTO;
 
@@ -33,7 +32,8 @@ public class FilterController
     }
 
         @PostMapping("/saveFilter")
-        public String saveUserFilter(@ModelAttribute FilterDTO filter) {
+        public String saveUserFilter(@ModelAttribute FilterDTO filter)
+        {
             // Retrieve the email from the session
             String email = (String) session.getAttribute("email");
 
@@ -44,11 +44,34 @@ public class FilterController
                 userService.saveUserFilter(email, filter);
 
                 return "redirect:/filter"; // Redirect on success
-            } else {
-                // Handle the case where there is no email in session
-                return "redirect:/login"; // Redirect to login or an appropriate error page
+            }
+            else
+            {
+
+                return "redirect:/auth";
             }
         }
+    @GetMapping("/getFilterData")
+    @ResponseBody
+    public FilterDTO getFilterData(@RequestParam String uid)
+    {
+
+        FilterDTO filter = userService.getFilterByUid(uid);
+        return filter;
+    }
 
 
+    @PostMapping("/deleteFilter")
+    public ResponseEntity<?> deleteFilter(@RequestParam String uid)
+    {
+        String email = (String) session.getAttribute("email");
+        if (email != null && userService.deleteUserFilter(email, uid))
+        {
+            return ResponseEntity.ok().build(); // Return success response
+        }
+        else
+        {
+            return ResponseEntity.badRequest().build(); // Return failure response
+        }
+    }
 }
