@@ -23,6 +23,7 @@ public class WebConfig implements WebMvcConfigurer
                         "/resources/**",
                         "/static/**",
                         "/web-view/**",
+                        "/modal/**",
                         "/index",
                         "/about"
                 );

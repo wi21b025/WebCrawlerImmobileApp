@@ -2,8 +2,11 @@ package web.dto;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class FilterDTO {
+
+    private String uid;
     private String bundesland;
     private String ort;
     private String bezirk;
@@ -14,6 +17,11 @@ public class FilterDTO {
     private String preis_sq_2_from;
     private String preis_sq_2_to;
     private String kategorie;
+
+
+
+
+
 
     // Getters and Setters
     public String getBundesland() { return bundesland; }
@@ -27,7 +35,7 @@ public class FilterDTO {
 
     public String getBezirk() { return bezirk; }
     public void setBezirk(String bezirk) {
-        this.bezirk = (this.bundesland != null && this.bundesland.equals("Wien")) ? " " : bezirk;
+        this.bezirk = bezirk;
     }
 
     public String getPreis_from() { return preis_from; }
@@ -51,9 +59,22 @@ public class FilterDTO {
     public String getKategorie() { return kategorie; }
     public void setKategorie(String kategorie) { this.kategorie = kategorie; }
 
+    public String getUid() {  return uid;   }
+
+    public void setUid(String uid) {  this.uid = uid;    }
+    String randomPart = UUID.randomUUID().toString().substring(0, 4);
+
+
     // toMap method to convert DTO to Map
-    public Map<String, Object> toMap() {
+    public Map<String, Object> toMap()
+    {
+        if (uid == null || uid.isEmpty())
+        {
+            uid = (this.bundesland != null && this.bundesland.equals("Wien")) ? "Wien"+ "-" + randomPart : ort + "-" + randomPart;
+        }
+
         Map<String, Object> map = new HashMap<>();
+        map.put("uid", uid);
         map.put("bundesland", bundesland);
         map.put("ort", ort);
         map.put("bezirk", bezirk);
@@ -66,4 +87,6 @@ public class FilterDTO {
         map.put("kategorie", kategorie);
         return map;
     }
+
+
 }

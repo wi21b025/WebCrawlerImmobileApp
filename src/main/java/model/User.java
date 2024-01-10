@@ -3,6 +3,8 @@ package model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 @Document(collection = "Users")
@@ -15,6 +17,9 @@ public class User
     private String email;
 
     private Map<String, Object> filter;
+
+    private List<Map<String, Object>> filters;
+    // Store filters as a list of maps
 
     private String username;
     private String password;
@@ -35,7 +40,18 @@ public class User
     {
         return filter;
     }
+   /* public List<Map<String, Object>> getFilters()
+    {
+        return filters;
+    }*/
 
+    public void setFilters(List<Map<String, Object>> filters) {
+        this.filters = filters;
+    }
+
+    public List<Map<String, Object>> getFilters() {
+        return filters != null ? filters : Collections.emptyList();
+    }
     public void setUsername(String username)
     {
         this.username = username;

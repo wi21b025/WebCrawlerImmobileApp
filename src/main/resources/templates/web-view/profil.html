@@ -11,9 +11,6 @@
     <!-- Bootstrap CSS File -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-    <!-- Libraries CSS Files -->
-    <link href="/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
     <!-- Main Stylesheet File -->
     <link href="/css/style.css" rel="stylesheet">
@@ -67,27 +64,75 @@
     <section class="profil-container">
         <div class="container-fluid">
             <div class="row">
-                <div class="card-container">
-                    <div class="content-center">
-                        <center><img src="/img/profil-mainIcon.png" alt="Profile Icon" class="profile-icon"></center>
-                        <div class="text-content">
-                            <h2>Willkommen!</h2>
-                            <br/>
-                            <hr class="divider"/>
-                            <h4>Meine Zugangsdaten</h4>
-                            <hr class="divider"/>
-                            <p><strong>Benutzername:</strong> <span th:text="${session.username}">Benutzername</span></p>
-                            <p><strong>Email:</strong> <span th:text="${session.email}">Email</span></p>
-                            <hr class="divider"/>
+                <div class="col-md-6">
+                    <div class="card-container">
+                        <div class="content-center">
+                            <center><img src="/img/profil-mainIcon.png" alt="Profile Icon" class="profile-icon"></center>
+                            <div class="text-content">
+                                <h2>Willkommen!</h2>
+                                <br/>
+                                <hr class="divider"/>
+                                <h4>Meine Zugangsdaten</h4>
+                                <hr class="divider"/>
+                                <p><strong>Benutzername:</strong> <span th:text="${session.username}">Benutzername</span></p>
+                                <p><strong>Email:</strong> <span th:text="${session.email}">Email</span></p>
+                                <hr class="divider"/>
+                            </div>
                         </div>
+                    </div>
+                </div>
+                <style>
+                    .table th {
+                        width: 22%;
+                    }
+
+                    .table th:nth-child(4) {
+                        width: 15%;
+                    }
+                </style>
+                <div class="col-md-6">
+                    <div class="card-container-tab">
+
+                    <div class="table-container" style="width: 100%; height: 440px;">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Filter UID</th>
+                                <th scope="col">Kategorie</th>
+                                <th scope="col">Bundesland</th>
+                                <th scope="col"><center>Action</center></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr th:each="filter : ${filters}">
+                                    <td th:if="${filter != null}" th:text="${filter.uid}"></td>
+                                    <td th:if="${filter != null}" th:text="${filter.kategorie}"></td>
+                                    <td th:if="${filter != null}" th:text="${filter.bundesland}"></td>
+                                    <td th:if="${filter != null}">
+                                        <center>
+                                            <!--<button data-toggle="modal" onclick="loadModalContent()" data-target=".bd-example-modal-lg" style="background: url('/img/eye-view.svg') no-repeat center; border: none; padding: 15px; background-size: contain; cursor: pointer; height: 15px; width: 30px;"></button>-->
+                                            <button data-toggle="modal" th:attr="data-uid=${filter.uid}" onclick="loadModalContent(this.getAttribute('data-uid'))" data-target=".bd-example-modal-lg" style="background: url('/img/eye-view.svg') no-repeat center; border: none; padding: 15px; background-size: contain; cursor: pointer; height: 15px; width: 30px;"></button>
+
+                                        </center>
+                                    </td>
+                                </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
                     </div>
                 </div>
             </div>
         </div>
 
     </section>
+
+
 <!--/ Profil  end /-->
 
+<div id="modalContainer"></div> <!-- The modal content will be loaded here -->
 
 
 <!--/ Footer Start /-->
@@ -104,6 +149,132 @@
     </div>
 </footer>
 <!--/ Footer End /-->
+
+<script>
+
+    function loadModalContent(uid) {
+        let modalContainer = document.getElementById('modalContainer');
+
+        // Clear previous content
+        modalContainer.innerHTML = '';
+
+        // Fetch filter data
+        fetch('/getFilterData?uid=' + uid)
+            .then(response => response.json())
+            .then(filterData => {
+
+                fetch('modal/filterModal.html')
+                    .then(response => response.text())
+                    .then(html => {
+
+                        modalContainer.innerHTML = html;
+
+
+                        document.getElementById('preis_from').value = filterData.preis_from || '';
+                        document.getElementById('preis_to').value = filterData.preis_to || '';
+                        document.getElementById('area_from').value = filterData.area_from || '';
+                        document.getElementById('area_to').value = filterData.area_to || '';
+                        document.getElementById('preis_sq_2_from').value = filterData.preis_sq_2_from || '';
+                        document.getElementById('preis_sq_2_to').value = filterData.preis_sq_2_to || '';
+                        document.getElementById('filter-uid-placeholder').innerHTML = filterData.uid || '';
+
+                        // Populate dropdowns
+                        setSelectedOption('kategorieDropdown', filterData.kategorie);
+                        console.log(filterData.kategorie);
+                        console.log(filterData.bundesland);
+                        setSelectedOption('bundeslandDropdown', filterData.bundesland);
+                        setBezirkOrtValuesAndVisibility(filterData.bundesland, filterData.bezirk, filterData.ort, filterData.uid);
+
+                        // Show the modal
+                        $('.bd-example-modal-lg').modal('show');
+                    })
+                    .catch(error => console.error('Error loading modal content:', error));
+            })
+            .catch(error => console.error('Error retrieving filter data:', error));
+    }
+
+    function setSelectedOption(selectId, value) {
+        let select = document.getElementById(selectId);
+        if (select) {
+            for (let option of select.options) {
+                if (option.value === value) {
+                    option.selected = true;
+                    break;
+                }
+            }
+        }
+    }
+    function setBezirkOrtValuesAndVisibility(bundesland, bezirkValue, ortValue, uid) {
+
+        console.log("Bundesland:", bundesland, "Bezirk:", bezirkValue, "Ort:", ortValue); // Debug log
+
+        let bezirkDiv = document.getElementById('bezirkDropdown');
+        let ortDiv = document.getElementById('orteDropdown');
+        bezirkDiv.style.display = 'none';
+        ortDiv.style.display = 'none';
+
+
+        if (bundesland === 'Wien') {
+            bezirkDiv.style.display = 'block';
+            bezirkDiv.querySelector('input').value = bezirkValue || '';
+        } else {
+
+            ortDiv.style.display = 'block';
+            ortDiv.querySelector('input').value = ortValue || '';
+        }
+    }
+
+
+
+    /*function loadModalContent()
+    {
+
+        let modalContainer = document.getElementById('modalContainer');
+
+
+        modalContainer.innerHTML = '';
+
+
+        fetch('modal/filterModal.html')
+            .then(response => response.text())
+            .then(html => {
+
+                modalContainer.innerHTML = html;
+
+                $('.bd-example-modal-lg').modal('show');
+            })
+            .catch(error => console.error('Error loading modal:', error));
+    }*/
+</script>
+
+
+<script>
+    function deleteFilter(uid) {
+        if(!uid) {
+            console.error("Die UID fehlt. Filter kann nicht gelöscht werden.");
+            return;
+        }
+
+        // Confirm before deleting
+        if(confirm("Sind Sie sicher, dass Sie diesen Filter löschen wollen?")) {
+            fetch('/deleteFilter?uid=' + uid, { method: 'POST' })
+                .then(response => {
+                    if(response.ok) {
+                        // Close the modal and refresh the page or update the UI as needed
+                        $('.bd-example-modal-lg').modal('hide');
+                        location.reload(); // or any other way to update the UI
+                    } else {
+                        alert("Das Löschen des Filters ist fehlgeschlagen.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Fehler beim Löschen des Filters:', error);
+                    alert("Beim Löschen des Filters ist ein Fehler aufgetreten.");
+                });
+        }
+    }
+
+</script>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
