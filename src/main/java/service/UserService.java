@@ -47,13 +47,16 @@ public class UserService {
 
     public boolean saveIfNotExists(User user)
     {
-        if (!isUserExists(user)) {
+        if (!isUserExists(user))
+        {
             mongoTemplate.save(user);
             logger.info("New User is saved in the DB successfully.");
-            return true; // New user saved
-        } else {
+            return true;
+        }
+        else
+        {
             logger.info("User with the same username or email already exists.");
-            return false; // User with the same username or email already exists
+            return false;
         }
     }
 

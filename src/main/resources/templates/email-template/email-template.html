@@ -88,12 +88,12 @@
                         <center>
                             <div class="info-container">
                                 <div class="info-column">
-                                    <p th:text="${listing.rooms}">Rooms</p>
-                                    <p th:text="${listing.price}"><b>Price</b></p>
+                                    <p th:if="${listing.rooms != null and !listing.rooms.isEmpty()}" th:text="${listing.rooms} + ' Zimmer'">Rooms</p>
+                                    <p th:text="'Preis: '+${listing.price} +' €'"><b>Price</b></p>
                                 </div>
                                 <div class="info-column">
-                                    <p th:text="${listing.sizes}">Size</p>
-                                    <p th:text="${listing.pricesqm}">Price pro sq meter</p>
+                                    <p th:text="'Fläche: ' + ${listing.sizes} + ' m²'">Size</p>
+                                    <p th:text="'Preis/m&sup2;: '+ ${listing.pricesqm} +' €'">Price pro sq meter</p>
                                 </div>
                             </div>
                             <br/>

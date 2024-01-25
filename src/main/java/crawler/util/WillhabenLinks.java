@@ -1,13 +1,14 @@
 package crawler.util;
 
-import model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class WillhabenLinks
 {
     // General parameters
+    private static final Logger logger = LoggerFactory.getLogger(WillhabenLinks.class);
 
     public static final String BASE_URL = "https://www.willhaben.at/iad/immobilien/";
 
@@ -71,50 +72,50 @@ public class WillhabenLinks
 
     // Städte in Burgenland (Burgerland)
     public static final String EISENSTADT = "&areaId=101";
-    public static final String EISENSTADT_UMGEBUNG = "&areaId=102";
-    public static final String GUSSING = "&areaId=103";
-    public static final String JENNERSDORF = "&areaId=104";
-    public static final String MATTERSBURG = "&areaId=105";
+    public static final String EISENSTADT_UMGEBUNG = "&areaId=103";
+    public static final String GUSSING = "&areaId=104";
+    public static final String JENNERSDORF = "&areaId=105";
+    public static final String MATTERSBURG = "&areaId=107";
     public static final String NEUSIEDL_AM_SEE = "&areaId=106";
-    public static final String OBERPULLENDORF = "&areaId=107";
-    public static final String OBERWART = "&areaId=108";
-    public static final String RUST = "&areaId=109";
+    public static final String OBERPULLENDORF = "&areaId=108";
+    public static final String OBERWART = "&areaId=109";
+    public static final String RUST = "&areaId=102";
 
     // Städte in Kärnten
-    public static final String FELDKIRCHEN = "&areaId=201";
-    public static final String HERMAGOR = "&areaId=202";
-    public static final String KLAGENFURT = "&areaId=203";
+    public static final String FELDKIRCHEN = "&areaId=210";
+    public static final String HERMAGOR = "&areaId=203";
+    public static final String KLAGENFURT = "&areaId=201";
     public static final String KLAGENFURT_LAND = "&areaId=204";
     public static final String SANKT_VEIT_AN_DER_GLAN = "&areaId=205";
     public static final String SPITTAL_AN_DER_DRAU = "&areaId=206";
-    public static final String VILLACH = "&areaId=207";
-    public static final String VILLACH_LAND = "&areaId=208";
-    public static final String VOLKERMARKT = "&areaId=209";
-    public static final String WOLFSBERG = "&areaId=210";
+    public static final String VILLACH = "&areaId=202";
+    public static final String VILLACH_LAND = "&areaId=207";
+    public static final String VOLKERMARKT = "&areaId=208";
+    public static final String WOLFSBERG = "&areaId=209";
 
     // Städte in Niederösterreich
-    public static final String AMSTETTEN = "&areaId=301";
-    public static final String BADEN = "&areaId=302";
-    public static final String BRUCK_AN_DER_LEITHA = "&areaId=303";
-    public static final String GMUND = "&areaId=304";
-    public static final String GANSERNDORF = "&areaId=305";
-    public static final String HOLLABRUNN = "&areaId=306";
-    public static final String HORN = "&areaId=307";
-    public static final String KORNEUBURG = "&areaId=308";
-    public static final String KREMS_LAND = "&areaId=309";
-    public static final String KREMS_AN_DER_DONAU = "&areaId=310";
-    public static final String LILIENFELD = "&areaId=311";
-    public static final String MELK = "&areaId=312";
-    public static final String MISTELBACH = "&areaId=313";
-    public static final String MODLING = "&areaId=314";
-    public static final String NEUNKIRCHEN = "&areaId=315";
-    public static final String SANKT_POLTEN = "&areaId=316";
-    public static final String SANKT_POLTEN_LAND = "&areaId=317";
-    public static final String SCHEIBBS = "&areaId=318";
-    public static final String TULLN = "&areaId=319";
-    public static final String WAIDHOFEN_AN_DER_THAYA = "&areaId=320";
-    public static final String WAIDHOFEN_AN_DER_YBBS = "&areaId=321";
-    public static final String WIENER_NEUSTADT = "&areaId=322";
+    public static final String AMSTETTEN = "&areaId=305";
+    public static final String BADEN = "&areaId=306";
+    public static final String BRUCK_AN_DER_LEITHA = "&areaId=307";
+    public static final String GMUND = "&areaId=309";
+    public static final String GANSERNDORF = "&areaId=308";
+    public static final String HOLLABRUNN = "&areaId=310";
+    public static final String HORN = "&areaId=311";
+    public static final String KORNEUBURG = "&areaId=312";
+    public static final String KREMS_LAND = "&areaId=313";
+    public static final String KREMS_AN_DER_DONAU = "&areaId=301";
+    public static final String LILIENFELD = "&areaId=314";
+    public static final String MELK = "&areaId=315";
+    public static final String MISTELBACH = "&areaId=316";
+    public static final String MODLING = "&areaId=317";
+    public static final String NEUNKIRCHEN = "&areaId=318";
+    public static final String SANKT_POLTEN = "&areaId=302";
+    public static final String SANKT_POLTEN_LAND = "&areaId=319";
+    public static final String SCHEIBBS = "&areaId=320";
+    public static final String TULLN = "&areaId=321";
+    public static final String WAIDHOFEN_AN_DER_THAYA = "&areaId=322";
+    public static final String WAIDHOFEN_AN_DER_YBBS = "&areaId=303";
+    public static final String WIENER_NEUSTADT = "&areaId=304";
     public static final String WIENER_NEUSTADT_LAND = "&areaId=323";
     public static final String ZWETTL = "&areaId=325";
 
@@ -139,15 +140,15 @@ public class WillhabenLinks
     public static final String WELS_LAND = "&areaId=418";
 
     // Städte in Salzburg
-    public static final String HALLEIN = "&areaId=501";
-    public static final String SALZBURG_STADT = "&areaId=502";
+    public static final String HALLEIN = "&areaId=502";
+    public static final String SALZBURG_STADT = "&areaId=501";
     public static final String SALZBURG_UMGEBUNG = "&areaId=503";
     public static final String SANKT_JOHANN_IM_PONGAU = "&areaId=504";
     public static final String TAMSWEG = "&areaId=505";
     public static final String ZELL_AM_SEE = "&areaId=506";
 
     // Städte in Steiermark
-    public static final String BRUCK_MURZZUSCHLAG = "&areaId=601";
+    public static final String BRUCK_MURZZUSCHLAG = "&areaId=621";
     public static final String DEUTSCHLANDSBERG = "&areaId=603";
     public static final String GRAZ = "&areaId=606";
     public static final String GRAZ_UMGEBUNG = "&areaId=610";
@@ -157,13 +158,13 @@ public class WillhabenLinks
     public static final String LIEZEN = "&areaId=616";
     public static final String MURAU = "&areaId=617";
     public static final String MURTAL = "&areaId=620";
-    public static final String SUDOSTSTEIERMARK = "&areaId=621";
+    public static final String SUDOSTSTEIERMARK = "&areaId=601";
     public static final String VOITSBERG = "&areaId=622";
     public static final String WEIZ = "&areaId=623";
 
     // Städte in Tirol
-    public static final String IMST = "&areaId=701";
-    public static final String INNSBRUCK = "&areaId=702";
+    public static final String IMST = "&areaId=702";
+    public static final String INNSBRUCK = "&areaId=701";
     public static final String INNSBRUCK_LAND = "&areaId=703";
     public static final String KITZBUHEL = "&areaId=704";
     public static final String KUFSTEIN = "&areaId=705";
@@ -178,90 +179,65 @@ public class WillhabenLinks
     public static final String DORNBIRN = "&areaId=803";
     public static final String FELDKIRCH = "&areaId=804";
 
-    public static String getUrlForUser(User user)
-    {
-        Map<String, String> filter = user.getFilter().entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> String.valueOf(e.getValue())));
-        //String url = buildUrl(filter);
-        //System.out.println("Generated URL for " + user.getEmail() + ": " + url);
-
-        // Use the buildUrl method to construct the URL from the filters
-        return buildUrl(filter);
-    }
-
-    private static String buildUrl(Map<String, String> filter)
-    {
-        // Determine the base URL based on the category
-        String kategorie = filter.get("kategorie");
+    public static String getUrlForFilter(Map<String, Object> filter) {
+        String kategorie = String.valueOf(filter.getOrDefault("kategorie", ""));
         String baseUrl = getBaseUrlForKategorie(kategorie);
 
-        // Append parameters from the filter to the base URL
         StringBuilder urlBuilder = new StringBuilder(baseUrl);
 
+        appendPriceFilter(urlBuilder, filter);
+        appendSizeFilter(urlBuilder, filter);
+        appendLocationFilter(urlBuilder, filter);
 
-        String preisFrom = filter.getOrDefault("preis_from", "").trim();
-        String preisTo = filter.getOrDefault("preis_to", "").trim();
+        return urlBuilder.toString();
+    }
 
-        // Append the price_from parameter if it's not empty after trimming
-        if (!preisFrom.isEmpty())
+    private static void appendPriceFilter(StringBuilder urlBuilder, Map<String, Object> filter) {
+        String preisVon = String.valueOf(filter.getOrDefault("preis_von", ""));
+        String preisBis = String.valueOf(filter.getOrDefault("preis_bis", ""));
+
+        if (!preisVon.isEmpty()) {
+            urlBuilder.append(PRICE_FROM).append(preisVon);
+        }
+        if (!preisBis.isEmpty()) {
+            urlBuilder.append(PRICE_TO).append(preisBis);
+        }
+    }
+
+    private static void appendSizeFilter(StringBuilder urlBuilder, Map<String, Object> filter) {
+        String flaecheVon = String.valueOf(filter.getOrDefault("fläche_von", ""));
+        String flaecheBis = String.valueOf(filter.getOrDefault("fläche_bis", ""));
+
+        urlBuilder.append(ESTATE_SIZE_FROM).append(flaecheVon);
+        urlBuilder.append(ESTATE_SIZE_TO).append(flaecheBis);
+    }
+
+    private static void appendLocationFilter(StringBuilder urlBuilder, Map<String, Object> filter) {
+        String bundesland = String.valueOf(filter.getOrDefault("bundesland", "")).toLowerCase();
+        String ort = String.valueOf(filter.getOrDefault("ort", ""));
+        String bezirk = String.valueOf(filter.getOrDefault("bezirk", ""));
+
+        if (bundesland.equals("wien"))
         {
-            urlBuilder.append(PRICE_FROM).append(preisFrom);
-        }
-
-        // Append the price_to parameter if it's not empty after trimming
-        if (!preisTo.isEmpty())
-        {
-            urlBuilder.append(PRICE_TO).append(preisTo);
-        }
-
-        // Append each filter parameter
-        urlBuilder.append(ESTATE_SIZE_FROM).append(filter.getOrDefault("area_from", ""));
-        urlBuilder.append(ESTATE_SIZE_TO).append(filter.getOrDefault("area_to", ""));
-        //urlBuilder.append(PRICE_FROM).append(filter.getOrDefault("preis_from", ""));
-        //urlBuilder.append(PRICE_TO).append(filter.getOrDefault("preis_to", ""));
-
-        String bundesland = filter.getOrDefault("bundesland", "").toLowerCase();
-        String ort = filter.getOrDefault("ort", "");
-        String bezirk = filter.getOrDefault("bezirk", "");
-
-
-
-      /*  if (filter.containsKey("bezirk") && filter.get("bundesland").equalsIgnoreCase("wien")) {
-            String bezirkCode = getWienBezirkCode(filter.get("bezirk"));
-            urlBuilder.append(bezirkCode);
-        }
-
-        String areaId = getAreaIdForOrt(filter.get("bundesland"), filter.get("ort"));
-        if (areaId != null && !areaId.isEmpty()) {
-            urlBuilder.append(areaId);
-        }
-*/
-
-        if (bundesland.equals("wien")) {
-
             urlBuilder.append(bezirk.isEmpty() ? WIEN : getWienBezirkCode(bezirk));
         } else {
-
             if (!ort.isEmpty()) {
-
                 String areaId = getAreaIdForOrt(bundesland, ort);
                 if (!areaId.isEmpty()) {
                     urlBuilder.append(areaId);
                 }
             } else {
-
                 String bundeslandAreaId = getBundeslandAreaId(bundesland);
                 if (!bundeslandAreaId.isEmpty()) {
                     urlBuilder.append(bundeslandAreaId);
                 }
             }
         }
-
-        return urlBuilder.toString();
     }
 
     private static String getBundeslandAreaId(String bundesland) {
-        switch (bundesland) {
+        switch (bundesland.toLowerCase())
+        {
             case "burgenland": return BURGERLAND;
             case "kärnten": return KARNTEN;
             case "niederösterreich": return NIEDEROESTERREICH;
@@ -318,7 +294,8 @@ public class WillhabenLinks
 
 
     private static String getAreaIdForOrt(String bundesland, String ort) {
-        switch (bundesland.toLowerCase()) {
+        switch (bundesland.toLowerCase())
+        {
             case "burgenland":
                 return getBurgenlandOrtCode(ort);
             case "kärnten":
@@ -343,7 +320,8 @@ public class WillhabenLinks
     }
 
     private static String getVorarlbergOrtCode(String ort) {
-        switch (ort) {
+        switch (ort)
+        {
             case "Bludenz": return BLUDENZ;
             case "Bregenz": return BREGENZ;
             case "Dornbirn": return DORNBIRN;
@@ -418,7 +396,8 @@ public class WillhabenLinks
 
     private static String getBurgenlandOrtCode(String ort)
     {
-        switch (ort) {
+        switch (ort)
+        {
             case "Eisenstadt": return EISENSTADT;
             case "Eisenstadt-Umgebung": return EISENSTADT_UMGEBUNG;
             case "Rust": return RUST;
@@ -464,15 +443,15 @@ public class WillhabenLinks
 
     private static String getWienBezirkCode(String bezirk) {
         switch (bezirk) {
-            case "01": return WIEN_01;
-            case "02": return WIEN_02;
-            case "03": return WIEN_03;
-            case "04": return WIEN_04;
-            case "05": return WIEN_05;
-            case "06": return WIEN_06;
-            case "07": return WIEN_07;
-            case "08": return WIEN_08;
-            case "09": return WIEN_09;
+            case "1": return WIEN_01;
+            case "2": return WIEN_02;
+            case "3": return WIEN_03;
+            case "4": return WIEN_04;
+            case "5": return WIEN_05;
+            case "6": return WIEN_06;
+            case "7": return WIEN_07;
+            case "8": return WIEN_08;
+            case "9": return WIEN_09;
             case "10": return WIEN_10;
             case "11": return WIEN_11;
             case "12": return WIEN_12;

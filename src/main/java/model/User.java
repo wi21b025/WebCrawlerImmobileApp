@@ -40,6 +40,7 @@ public class User
     {
         return filter;
     }
+
    /* public List<Map<String, Object>> getFilters()
     {
         return filters;
@@ -49,7 +50,8 @@ public class User
         this.filters = filters;
     }
 
-    public List<Map<String, Object>> getFilters() {
+    public List<Map<String, Object>> getFilters()
+    {
         return filters != null ? filters : Collections.emptyList();
     }
     public void setUsername(String username)

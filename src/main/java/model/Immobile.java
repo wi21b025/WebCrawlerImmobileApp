@@ -78,36 +78,14 @@ public class Immobile
     public String getRoom() {  return room;   }
     public void setRoom(String room) {  this.room = room;  }
 
-    public void setPreisProSqMeter() {
-        // Check if price or size is null or empty
-        if (this.price == null || this.price.isEmpty() || this.size == null || this.size.isEmpty()) {
-            this.preisProQdrMeter = "NA";
-            return;
-        }
+    public void setPreisProSqMeter(String preisProQdrMeter)
+    {
 
-        try {
-            String numericPrice = this.price.replaceAll("[^\\d,]", "");
-            String numericSize = this.size.replaceAll("[^\\d.]", "");
-
-            double priceValue = Double.parseDouble(numericPrice);
-            double sizeValue = Double.parseDouble(numericSize);
-
-            if (sizeValue == 0) {
-                this.preisProQdrMeter = "NA";
-                return;
-            }
-
-            // Calculate and set price per square meter
-            this.preisProQdrMeter = "€ " + String.format("%.2f", priceValue / sizeValue);
-        } catch (NumberFormatException e) {
-            this.preisProQdrMeter = "NA";
-        }
+        this.preisProQdrMeter = preisProQdrMeter;
     }
-
 
     public String getPreisProSqMeter()
     {
-        setPreisProSqMeter();
         return this.preisProQdrMeter;
     }
 
