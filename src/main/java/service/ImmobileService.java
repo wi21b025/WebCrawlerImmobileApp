@@ -23,11 +23,7 @@ public class ImmobileService
     AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MongoDbConfig.class);
     MongoTemplate mongoTemplate = context.getBean(MongoTemplate.class);
 
-    /*   @Autowired
-       public ImmobileService(MongoTemplate mongoTemplate) {
-           this.mongoTemplate = mongoTemplate;
-       }
-   */
+
     public boolean saveImmobile(Immobile immobile)
     {
         try
@@ -41,8 +37,33 @@ public class ImmobileService
         }
     }
 
-
-
+    public int calculatePricePerSqMeter(String price, String size)
+    {
+        try
+        {
+            if (price != null && !price.isEmpty() && size != null && !size.isEmpty())
+            {
+                int priceValue = Integer.parseInt(price.replaceAll(",\\d+", ""));
+                int sizeValue = Integer.parseInt(size.replaceAll("[^\\d]", ""));
+                if (sizeValue != 0)
+                {
+                    return priceValue / sizeValue; // Integer division
+                }
+                else
+                {
+                    return -1; // Handle division by zero
+                }
+            }
+            else
+            {
+                return -1; // Handle missing price or size
+            }
+        }
+        catch (NumberFormatException e)
+        {
+            return -1; // Handle invalid number format
+        }
+    }
 
     public Immobile createImmobile(String category, String address, String size)
     {
@@ -53,14 +74,7 @@ public class ImmobileService
         return immobile;
     }
 
-    public boolean isImmobileExists(Immobile immobile)
-    {
-        return mongoTemplate.exists(Query.query(
-                        Criteria.where("category").is(immobile.getCategory())
-                                .and("address").is(immobile.getAddress())
-                                .and("size").is(immobile.getSize())),
-                Immobile.class);
-    }
+
 
     public boolean saveIfNotExists(Immobile immobile)
     {

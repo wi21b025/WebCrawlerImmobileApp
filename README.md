@@ -63,4 +63,11 @@ Unsere Webseite ist von 5 Seiten erstellt
 - Jede Seite ist so konfiguriert, dass wenn man keine Rechte hat, wird er/sie auf die Anmelde-Seite umgeleitet
 
 
+## Settings
+
+Als DB wurde für MongoDB entschieden, da es sehr flexible ist.
+Wir verwenden Spring Boot + Thymian (HTML interaktion)
+JDK Version 21
+
+
 

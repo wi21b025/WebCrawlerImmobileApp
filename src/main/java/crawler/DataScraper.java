@@ -12,6 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.Duration;
 
 @Component
@@ -24,60 +28,42 @@ public class DataScraper
 
     public DataScraper()
     {
-        // Set up the WebDriver (Firefox in this example)
         WebDriverManager.firefoxdriver().setup(); // Automatically download and manage geckodriver
-
-        // Uncomment below lines to use headless Firefox
         FirefoxOptions options = new FirefoxOptions();
         options.addArguments("--headless");
         this.driver = new FirefoxDriver(options);
-
-
-        // Comment below line to use headless Firefox
-        //driver = new FirefoxDriver();
     }
 
-    public String scrapeData(String url)
-    {
+    public String scrapeData(String url) {
         this.userUrl = url;
-        StringBuilder concatenatedContent = new StringBuilder();
+        File file = new File("tmp.txt");
 
-        try
-        {
-
-            // Navigate to the URL
-            logger.info("Navigating to the URL");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             driver.get(this.userUrl);
-            logger.info("URL: " + this.userUrl);
+            logger.info("Navigating to URL: " + this.userUrl);
 
-            closePopup(); // Add this line to close popups
+            closePopup();
 
-            while (true)
-            {
-                // Extract the content from the current page and append it to the concatenatedContent StringBuilder
+            while (true) {
                 String pageContent = savePageContent();
-                concatenatedContent.append(pageContent);
-                logger.info("Content from current page appended");
+                writer.write(pageContent);
+                writer.newLine();
 
-                // Navigate to the next page
-                if (!navigateToNextPage())
-                {
+                if (!navigateToNextPage()) {
                     logger.info("Reached the last page");
                     break;
                 }
             }
-        }
-        finally
-        {
-            // Quit the WebDriver when done
-           /* logger.info("Quitting the WebDriver");
-            if (driver != null) {
+        } catch (IOException e) {
+            logger.error("Error writing to file", e);
+            return null;
+        } finally {
+            /*if (driver != null) {
                 driver.quit();
-                this.driver = null;
             }*/
         }
 
-        return concatenatedContent.toString();
+        return file.getAbsolutePath();
     }
 
 
@@ -108,7 +94,8 @@ public class DataScraper
 
             // Check if "Next" button is disabled indicating the last page
             String ariaDisabled = weiterButton.getAttribute("aria-disabled");
-            if ("true".equals(ariaDisabled)) {
+            if ("true".equals(ariaDisabled))
+            {
                 logger.info("Next page button is disabled, reached the last page.");
                 return false;
             }
@@ -120,31 +107,8 @@ public class DataScraper
         } catch (Exception e) {
             // Handle the situation where the "Next" button might not be present
             logger.error("Could not navigate to the next page. It might be the last page or the button is not present");
-            //logger.error("Could not navigate to the next page. It might be the last page or the button is not present: " + e.getMessage());
             return false;
         }
     }
 
-
-    /*private boolean navigateToNextPage() {
-        WebElement weiterButton = driver.findElement(By.xpath("//a[@data-testid='pagination-top-next-button']"));
-
-        if (weiterButton.getAttribute("aria-disabled").equals("true")) {
-            logger.info("Next page button disabled");
-            return false;
-        }
-
-        weiterButton.click();
-
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            logger.error("Error while waiting: " + e.getMessage());
-        }
-
-        logger.info("Navigated to the next page");
-        return true;
-    }
-
-     */
 }
