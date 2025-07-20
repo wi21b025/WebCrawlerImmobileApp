@@ -1,73 +1,76 @@
-# WebCrawlerImmobileApp
 
-## Crawler
+# 🏠 WebCrawlerImmobileApp
 
-Es wird eine URL erstellt, nach jedem erstellten filter von dem Kund:in.
-Crawler verwendet den WebDriverManager von FireFox, um den Link zu öffnen.
-Danach werden die RAW-HTML Daten bearbeitet und ein Objekt erstellt und dann alle Objekten von dem jeweiligen Filter in einer Liste gespeichert.
-Diese Liste wird dann in unserer 'Email-Template' eingefügt.
-Nachdem dieses Template bereit ist, senden wir es durch 'crawlerimmobilien@gmail.com' zu dem jeweiligen Nutzer.
+A fully automated real estate monitoring system for Austrian listings. Users define search filters once, and the system regularly checks for new matches that sends results directly through a notification system (Newsletter design). 
 
+---
+## 💡 Why Use It
 
-## Web-Application
-Die Kundin kann ein Konto erstellen, wo man seine Email/Benutzername und Password zum einloggen verwenden kann.
-Nachdem die Kundin sich eingemeldet hat, kann man beliebige Filter erstellen.
+- Set your filter once and the system does the rest.
+- No need to revisit listing sites or manually check.
+- Simple web interface with persistent filters and login.
+- Matching new listings are processed and sent out without user interaction.
+- Smart logic prevents duplicate results.
 
-### Suchkriterien
-Die Suchkriterien sind wie folgt:
-
-* Preis (von|bis)
-* Preis pro m^2 (von|bis)
-* Fläche (von|bis)
-
-* Kategorien:
-  - Haus kaufen
-  - Haus mieten
-  - Wohnung kaufen
-  - Wohnung mieten
-  - Grundstücke
-
-* Bundesland (alle 9 Bundesländer von Österreich)
-
-* Je nach wahl von dem gewählten Bundesland bekommt die Kundin automatisch gelistet, die Orte/Bezirke(im Fall von Wien).
+This app is made for **hands-off, filter-based property discovery**.
 
 
-### Allgemein
-Die Kundin bekommt dann eine E-Mail von unserer Crawler durch 'crawlerimmobilien@gmail.com'
+---
 
-Die Crawler, wir jede fünf Minuten aktiviert werden und durch die alle Filter gehen.
+## 📁 Project Structure (Custom Files Only)
 
-In unserer App wird auch gecheckt, ob die Anzeigen, die der Crawler bekommt bereits, der Kund:In gesendet worden sind.
+```
+📁 src/
+├── java/
+│   ├── crawler/               # Automated data collection and processing
+│   ├── model/                 # Domain models: User, Immobile
+│   ├── service/               # Business logic
+│   ├── web/controller/        # Web routes: filter, auth, profile
+│   └── config/                # MongoDB, web security, interceptors
+├── resources/
+│   ├── templates/             # Thymeleaf HTML views (web + email)
+│   ├── static/                # CSS, JS, images
+│   └── application.properties # App configuration
+```
 
-In diesem Fall wird keine E-Mail gesendet.
+---
 
-Im Profil kann der Kund:in bereit erstellte Filters sehen und nach wunsch löschen.
+## 🎯 Filter Capabilities
 
-Zusätzlich wird die Kund:in seine/ihre Zugangsdaten sehen.
+Each user can create multiple filters using the following options:
 
+- **Price** (minimum and maximum)
+- **Price per m²**
+- **Property size** (min / max in square meters)
+- **Property type**:
+  - House (buy or rent)
+  - Apartment (buy or rent)
+  - Land
+- **Region**: One of Austria’s 9 federal states
+- **Districts**: Auto-loaded based on selected region (e.g., for Vienna)
+---
 
-### Webseite Architektur
+## 🛡 Security
 
-Unsere Webseite ist von 5 Seiten erstellt
+- Passwords are hashed securely
+- Unauthorized users are redirected to login
+- Backend uses ORM queries (MongoDB) to prevent injection
 
-- Startseite
-- Über uns
-- Login/Signup (wenn man nicht bereits eingeloggt ist)
-- Profil (wenn man bereits eingeloggt ist)
-- Filter erstellen (wenn man bereits eingeloggt ist)
+---
 
-### Sicherheit
+## 🧰 Tech Stack
 
-- Die Passwörter werden in Hash umgewandelt
-- Die ganze Web-App verwendet ORM, die gegen SQL-INJECTION schützt
-- Jede Seite ist so konfiguriert, dass wenn man keine Rechte hat, wird er/sie auf die Anmelde-Seite umgeleitet
+| Component      | Technology                     |
+|----------------|--------------------------------|
+| Backend        | Java 21, Spring Boot 3         |
+| Frontend       | Thymeleaf (HTML templates)     |
+| Crawler Engine | Selenium + Firefox WebDriver   |
+| Database       | MongoDB                        |
+| Email Service  | Gmail SMTP (STARTTLS, port 587)|
+| DevOps         | Docker Compose                 |
+| Build Tool     | Maven                          |
+---------------------------------------------------
 
-
-## Settings
-
-Als DB wurde für MongoDB entschieden, da es sehr flexible ist.
-Wir verwenden Spring Boot + Thymian (HTML interaktion)
-JDK Version 21
 
 
 
